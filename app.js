@@ -6,6 +6,7 @@ const exec = require('child_process').exec;
 const app = express();
 
 // Constants
+const port = process.env.PORT || 3000;
 const FILES_LIMIT = 3;
 
 // Custom function to handle uploads
@@ -25,6 +26,8 @@ var storage = multer.diskStorage({
 // Applying custom upload handler
 const upload = multer({ storage: storage })
 
+
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
@@ -32,40 +35,45 @@ app.get('/', (req, res) => {
 // Handling POST request with uploaded files
 app.post('/upload', upload.array('somefiles', FILES_LIMIT), function (req, res, next) {
 
+  // Total files received
+  const totalFiles = req.files.length;
+  let links = [];
+
   // Going through each uploaded file
   for (i in req.files) {
     const file = req.files[i];
-    
     const fileName = file.filename;
 
     // Receiving file path on local machine
     const filePath = file.path;
     const repoPath = '/Users/viktorkirillov/projects/store/b1';
-    let result;
 
     console.log("File was saved at:", filePath);
     console.log("Repo path:", repoPath);
 
     // NOW WE CAN LAUNCH BASH SCRIPT TO UPLOAD SINGLE FILE
-    // ..
-
     var script = exec(`sh add_file.sh ${repoPath} ${filePath}`);
     
     script.stdout.on('data', (data) => {
+
+      // Adding github link to array
       if (data.includes('raw.githubusercontent.com')) {
-        // console.log(typeof(data));
-        result = data;
-      }
+        links.push(data);
+      };
     }); 
-
-    script.stdout.on('end', () => {
-      res.send(result);
-    })
-
   };
-  
+
+  // Checking for links to be generated
+  const interval = setInterval(() => {
+
+    // Send responce to user
+    if (links.length === totalFiles) {
+      clearInterval(interval);
+      res.send(links);
+    }
+  }, 100);
 });
 
-app.listen(3000, () => {
-  console.log('App is open on port 3000');
+app.listen(port, () => {
+  console.log(`App is open on port ${port}`);
 });
