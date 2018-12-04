@@ -1,13 +1,24 @@
-const express = require('express')
+const http = require('http');
+const express = require('express');
+
 const multer  = require('multer')
 const path = require('path');
 const exec = require('child_process').exec;
 
 const app = express();
+const server = http.createServer(app);
 
 // Constants
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
+const publicPath = path.join(__dirname, './public');
 const FILES_LIMIT = 3;
+
+app.use(express.static(publicPath));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // Custom function to handle uploads
 var storage = multer.diskStorage({
@@ -17,6 +28,7 @@ var storage = multer.diskStorage({
   filename: function (req, file, cb) {
     // Get extention of uploaded file
     const extension = path.parse(file.originalname).ext;
+    console.log('received');
 
     // Save file using format
     cb(null, 'file-' + Date.now() + extension);
@@ -27,13 +39,11 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-// Handling POST request with uploaded files
-app.post('/upload', upload.array('somefiles', FILES_LIMIT), function (req, res, next) {
+app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
 
   // Total files received
   const totalFiles = req.files.length;
@@ -58,6 +68,7 @@ app.post('/upload', upload.array('somefiles', FILES_LIMIT), function (req, res, 
 
       // Adding github link to array
       if (data.includes('raw.githubusercontent.com')) {
+        data = data.replace(/\n/g, '');
         links.push(data);
       };
     }); 
@@ -72,8 +83,11 @@ app.post('/upload', upload.array('somefiles', FILES_LIMIT), function (req, res, 
       res.send(links);
     }
   }, 100);
+
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`App is open on port ${port}`);
 });
+
+
