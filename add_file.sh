@@ -16,7 +16,10 @@ BRANCHNAME=$HASHEDFILEPATH
 CURRENTDIR=$(pwd)
 
 cd $REPOPATH
-git clone git@github.com:morejust/$REPONAME.git
+
+# trying to clone repo
+echo git clone https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
+git clone https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
 
 cd $REPONAME
 mv $FILEPATH ./
@@ -28,6 +31,8 @@ git checkout -b $BRANCHNAME
 git add .
 git commit -m "add $FILENAME to $BRANCHNAME branch"
 git push --set-upstream origin $BRANCHNAME
+
+# check if succeeded
 
 # Finishing
 # revert to commit
