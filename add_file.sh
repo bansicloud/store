@@ -35,6 +35,13 @@ git reset --hard origin/master
 git checkout -b $BRANCHNAME
 
 mv $FILEPATH ./
+
+echo ls
+ls
+
+echo git status
+git status
+
 echo git add $FILENAME
 git add $FILENAME
 
