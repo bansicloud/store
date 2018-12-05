@@ -3,8 +3,9 @@ const express = require('express');
 
 const multer  = require('multer')
 const path = require('path');
-const exec = require('child_process').exec;
 const { mkdir } = require('fs');
+
+const uploadToGithub = require('./upload')
 
 const app = express();
 const server = http.createServer(app);
@@ -50,47 +51,29 @@ app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
 
   // Total files received
   const totalFiles = req.files.length;
-  let links = [];
 
-  // Going through each uploaded file
-  for (i in req.files) {
-    const file = req.files[i];
+  const file_uploads = req.files.map((file) => {
+    // Going through each uploaded file
+
     const fileName = file.filename;
 
     // Receiving file path on local machine
     const filePath = file.path;
-    const repoPath = '/Users/viktorkirillov/projects/store/b1';
+    const repoPath = '.';
 
     console.log("File was saved at:", filePath);
     console.log("Repo path:", repoPath);
 
-    // NOW WE CAN LAUNCH BASH SCRIPT TO UPLOAD SINGLE FILE
-    var script = exec(`sh add_file.sh ${repoPath} ${filePath}`);
-    
-    script.stdout.on('data', (data) => {
+    const file_url = uploadToGithub(file.path);
 
-      // Adding github link to array
-      if (data.includes('raw.githubusercontent.com')) {
-        data = data.replace(/\n/g, '');
-        links.push(data);
-      };
-    }); 
-  };
+    return file_url
+  });
 
-  // Checking for links to be generated
-  const interval = setInterval(() => {
-
-    // Send responce to user
-    if (links.length === totalFiles) {
-      clearInterval(interval);
-      res.send(links);
-    }
-  }, 100);
-
+  Promise.all(file_uploads)
+    .then(links => res.send(links))
+    .catch(err => res.status(500).json(err.message));
 });
 
 server.listen(port, () => {
   console.log(`App is open on port ${port}`);
 });
-
-
