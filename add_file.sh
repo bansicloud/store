@@ -18,14 +18,18 @@ CURRENTDIR=$(pwd)
 cd $REPOPATH
 
 # trying to clone repo
-echo git clone https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
-git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
+
+# if [ no directory $REPONAME ]; do
+# echo git clone https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
+# git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
 
 cd $REPONAME
 
 # Checkout to the very first repo commit
 git checkout `git rev-list --max-parents=0 HEAD | tail -n 1`
 
+git add .
+git reset --hard origin/master
 git checkout -b $BRANCHNAME
 
 mv $FILEPATH ./
