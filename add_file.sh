@@ -22,13 +22,15 @@ echo git clone https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
 git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
 
 cd $REPONAME
-mv $FILEPATH ./
 
 # Checkout to the very first repo commit
 git checkout `git rev-list --max-parents=0 HEAD | tail -n 1`
 
 git checkout -b $BRANCHNAME
-git add .
+
+mv $FILEPATH ./
+git add $FILENAME
+
 git commit -m "add $FILENAME to $BRANCHNAME branch"
 git push --set-upstream origin $BRANCHNAME
 
