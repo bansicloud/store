@@ -6,6 +6,8 @@ module.exports = (filePath) => new Promise(resolve => {
   const script = exec(`sh add_file.sh ${repoPath} ${filePath}`);
 
   script.stdout.on('data', (data) => {
+    console.log('sh:', data)
+    
     // resolve with a github link
     if (data.includes('raw.githubusercontent.com')) {
       data = data.replace(/\n/g, '');
