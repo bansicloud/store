@@ -19,7 +19,7 @@ cd $REPOPATH
 
 # trying to clone repo
 echo git clone https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
-git clone https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
+git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
 
 cd $REPONAME
 mv $FILEPATH ./
