@@ -1,5 +1,8 @@
 # Adds a new file to repo
 
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
 # First argument - repo path
 REPOPATH=$1
 
