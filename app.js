@@ -4,6 +4,7 @@ const express = require('express');
 const multer  = require('multer')
 const path = require('path');
 const exec = require('child_process').exec;
+const { mkdir } = require('fs');
 
 const app = express();
 const server = http.createServer(app);
@@ -23,7 +24,9 @@ app.use(function(req, res, next) {
 // Custom function to handle uploads
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname + '/uploads'));
+    mkdir(path.join(__dirname + '/uploads'), () => {
+      cb(null, path.join(__dirname + '/uploads'));
+    });
   },
   filename: function (req, file, cb) {
     // Get extention of uploaded file
