@@ -35,9 +35,13 @@ git reset --hard origin/master
 git checkout -b $BRANCHNAME
 
 mv $FILEPATH ./
+echo git add $FILENAME
 git add $FILENAME
 
+echo git commit -m "add $FILENAME to $BRANCHNAME branch"
 git commit -m "add $FILENAME to $BRANCHNAME branch"
+
+echo git push --set-upstream origin $BRANCHNAME
 git push --set-upstream origin $BRANCHNAME
 
 # check if succeeded
