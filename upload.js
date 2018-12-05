@@ -7,11 +7,15 @@ module.exports = (filePath) => new Promise(resolve => {
 
   script.stdout.on('data', (data) => {
     console.log('sh:', data)
-    
+
     // resolve with a github link
     if (data.includes('raw.githubusercontent.com')) {
       data = data.replace(/\n/g, '');
       resolve(data);
     };
   });
+
+  script.stderr.on('data', (data) => {
+    console.log('sh err:', data)
+  })
 });
