@@ -10,7 +10,7 @@ REPONAME="b1"
 
 # Maybe this should be replaced for non macOS systems:
 # md5 -> md5sum
-HASHEDFILEPATH=$(echo -n $FILEPATH| md5 | awk '{print $1}')
+HASHEDFILEPATH=$(echo -n $FILEPATH| md5sum | awk '{print $1}')
 BRANCHNAME=$HASHEDFILEPATH
 
 CURRENTDIR=$(pwd)
