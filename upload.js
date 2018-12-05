@@ -1,5 +1,5 @@
 const { exec } = require('child_process');
-const repoPath = process.env.REPO_PATH || '.';
+const repoPath = process.env.REPO_PATH || 'blocks/';  // TODO: move to global constant
 
 module.exports = (filePath) => new Promise(resolve => {
   // NOW WE CAN LAUNCH BASH SCRIPT TO UPLOAD SINGLE FILE

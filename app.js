@@ -65,7 +65,7 @@ app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
 
     // Receiving file path on local machine
     const filePath = file.path;
-    const repoPath = '.';
+    const repoPath = 'blocks/'; // TODO: move to global constant
 
     console.log("File was saved at:", filePath);
     console.log("Repo path:", repoPath);
