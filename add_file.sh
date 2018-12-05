@@ -20,8 +20,10 @@ cd $REPOPATH
 # trying to clone repo
 
 # if [ no directory $REPONAME ]; do
-# echo git clone https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
-# git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
+if [ ! -d "$REPONAME" ]; then
+  echo git clone https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
+  git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$REPONAME.git
+fi
 
 cd $REPONAME
 
