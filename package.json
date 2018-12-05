@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-fileupload": "^1.0.0",
     "multer": "^1.4.1"

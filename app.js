@@ -5,6 +5,11 @@ const multer  = require('multer')
 const path = require('path');
 const { mkdir } = require('fs');
 
+const cors = require('cors');
+const corsOptions = {
+  origin: 'https://morejust.store',
+};
+
 const uploadToGithub = require('./upload')
 
 const app = express();
@@ -15,6 +20,7 @@ const port = process.env.PORT || 4000;
 const publicPath = path.join(__dirname, './public');
 const FILES_LIMIT = 3;
 
+app.use(cors(corsOptions));
 app.use(express.static(publicPath));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
