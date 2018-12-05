@@ -22,7 +22,7 @@ else
   BRANCHNAME=$(echo -n $FILEPATH| md5sum | awk '{print $1}')
 fi
 
-git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$BLOCKNAME.git $BLOCKS_FOLDER_PATH
+git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$BLOCKNAME.git $BLOCKS_FOLDER_PATH$BLOCKNAME
 
 cd $BLOCKS_FOLDER_PATH
 cd $BLOCKNAME
