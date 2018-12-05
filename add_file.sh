@@ -49,8 +49,6 @@ mv $FILEPATH ./
 # echo git status
 # git status
 
-# echo git push --set-upstream origin $BRANCHNAME
-# git push --set-upstream origin $BRANCHNAME
 
 echo git add $FILENAME
 git add $FILENAME
@@ -59,8 +57,9 @@ echo git commit -m "add $FILENAME to $BRANCHNAME branch"
 git commit -m "add $FILENAME to $BRANCHNAME branch"
 
 # check if succeeded
-#echo git commit -m "add $FILENAME to $BRANCHNAME branch"
-#git commit -m "add $FILENAME to $BRANCHNAME branch"
+
+echo git push --set-upstream origin $BRANCHNAME
+git push --set-upstream origin $BRANCHNAME
 
 # Finishing
 # revert to commit
