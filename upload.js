@@ -3,7 +3,7 @@ const repoPath = process.env.REPO_PATH || 'blocks/';  // TODO: move to global co
 
 module.exports = (filePath) => new Promise(resolve => {
   // NOW WE CAN LAUNCH BASH SCRIPT TO UPLOAD SINGLE FILE
-  const script = exec(`sh add_file.sh ${repoPath} ${filePath}`);
+  const script = exec(`sh add_file.sh ${filePath}`);
 
   script.stdout.on('data', (data) => {
     console.log('sh:', data)

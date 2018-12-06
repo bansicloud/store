@@ -1,15 +1,15 @@
 # Adds a new file to repo
 
+# Argument - file-to-add path
+FILEPATH=$1
+FILENAME=$(basename $FILEPATH)
+
+
+# Consts
+BLOCKS_FOLDER_PATH="blocks/"
+BLOCKNAME="b1"
 git config --global user.email "store@morejust.store"
 git config --global user.name "Mr. Store"
-
-# First argument - repo path
-BLOCKS_FOLDER_PATH=$1
-BLOCKNAME="b1"
-
-# Second argument - file-to-add path
-FILEPATH=$2
-FILENAME=$(basename $FILEPATH)
 
 CURRENTDIR=$(pwd)
 
