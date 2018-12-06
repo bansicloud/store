@@ -3,12 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
+    "filepond": "^3.5.0",
+    "filepond-plugin-image-exif-orientation": "^1.0.3",
+    "filepond-plugin-image-preview": "^3.1.4",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-dropzone": "^7.0.1",
+    "react-filepond": "^5.0.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
-    "socket.io-client": "^2.2.0"
+    "react-scripts": "2.1.1"
   },
+  "homepage": "http://kirillovmr.github.io/app",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -23,5 +29,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "gh-pages": "^2.0.1"
+  }
 }
