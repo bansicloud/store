@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "source .env",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },

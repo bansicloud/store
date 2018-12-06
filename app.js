@@ -55,27 +55,18 @@ app.get('/', (req, res) => {
 
 app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
 
-  // Total files received
-  const totalFiles = req.files.length;
+  const file_uploads = req.files.reduce(
+    (load, file) => load.then(async (urls) => {
+      console.log("File was saved at:", file.path);
 
-  const file_uploads = req.files.map((file) => {
-    // Going through each uploaded file
+      const file_url = await uploadToGithub(file.path);
 
-    const fileName = file.filename;
+      return [ ...urls, file_url ];
+    }),
+    Promise.resolve([])
+  );
 
-    // Receiving file path on local machine
-    const filePath = file.path;
-    const repoPath = 'blocks/'; // TODO: move to global constant
-
-    console.log("File was saved at:", filePath);
-    console.log("Repo path:", repoPath);
-
-    const file_url = uploadToGithub(file.path);
-
-    return file_url
-  });
-
-  Promise.all(file_uploads)
+  file_uploads
     .then(links => res.send(links))
     .catch(err => res.status(500).json(err.message));
 });
