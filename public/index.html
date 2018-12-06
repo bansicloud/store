@@ -7,17 +7,26 @@
   <title>Document</title>
 </head>
 <body>
-  <form id="form-upload" method="post" enctype="multipart/form-data">
-    <input id="form-input" type="file" name="somefiles" multiple/>
-    <input type="submit">
-  </form>
-  <div id="uploaded-list">
-    uploaded files:
-    <div style="display: none" class="loader">Loading...</div>
-    <div style="display: none" class="uploaded-file-link">
-      <a href="#">
-        link
-      </a>
+  <div class="container" style="max-width: 800px;margin: 20px auto">
+    <h1>Store anything forever!</h1>
+    <hr/>
+    <h2>Upload your files</h2>
+    <form id="form-upload" method="post" enctype="multipart/form-data">
+      <input id="form-input" type="file" name="somefiles" multiple/>
+      <input type="submit">
+    </form>
+    <hr/>
+    <h2>Copy your links</h2>
+    <div id="uploaded-list">
+      <div style="display: none" class="loader">Loading...</div>
+      <div style="display: none" class="uploaded-file-link">
+        <a href="#">
+          link
+        </a>
+      </div>
+    </div>
+    <div class="footer">
+      <a href="https://github.com/morejust/store">read more</a>
     </div>
   </div>
   <script src="./js/index.js"></script>
