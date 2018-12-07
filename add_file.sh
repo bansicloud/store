@@ -9,9 +9,9 @@ git config --global user.name "Mr. Store"
 
 # solving problem with different func names (md5 / md5sum)
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  BRANCHNAME=$(echo -n "$@"| md5 | awk '{print $1}')
+  BRANCHNAME=$(cat $@ | md5 | awk '{print $1}')
 else
-  BRANCHNAME=$(echo -n "$@"| md5sum | awk '{print $1}')
+  BRANCHNAME=$(cat $@ | md5sum | awk '{print $1}')
 fi
 
 
