@@ -7,9 +7,10 @@ const file_link = document.querySelector('.uploaded-file-link');
 const DEV_API_ROOT = 'http://localhost:4000'
 const PROD_API_ROOT = 'https://morejust.herokuapp.com'
 const REL_API_ROOT = '/'
+
 const API_ROOT = window.location.hostname === 'morejust.store'
   ? PROD_API_ROOT
-  : REL_API_ROOT
+  : `//${window.location.host}`
 
 const showLoading = () => {
   loaded.style.display = 'block'
