@@ -17,7 +17,7 @@ const server = http.createServer(app);
 
 // Constants
 const port = process.env.PORT || 4000;
-const publicPath = path.join(__dirname, './public');
+const publicPath = path.join(__dirname, './client/build');
 const FILES_LIMIT = 3;
 
 app.use(cors(corsOptions));
