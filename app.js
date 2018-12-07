@@ -38,10 +38,10 @@ var storage = multer.diskStorage({
   filename: function (req, file, cb) {
     // Get extention of uploaded file
     const extension = path.parse(file.originalname).ext;
-    console.log('received');
+    console.log('received', file.originalname);
 
     // Save file using format
-    cb(null, 'file-' + Date.now() + extension);
+    cb(null, file.originalname);
   }
 });
 
