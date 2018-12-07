@@ -19,7 +19,7 @@ class RightBlock extends Component {
   }
 
   render() {
-    console.log(this.state.links);
+    console.log('Rerendering right block');
     return (
       <div className="col-lg-6 content-right">
         <FileForm addLinks={this.addLinks.bind(this)} />

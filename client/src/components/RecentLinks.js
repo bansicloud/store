@@ -1,21 +1,57 @@
 import React from 'react';
 
+import iconFile from '../img/file_icons/file.png';
+import iconZip from '../img/file_icons/zip.png';
+
 function RecentLinks(props) {
 
+  const linkClicked = (link) => {
+    console.log('Copying', link);
+  }
+
+  const imageForExtension = (ext) => {
+    const img = ['jpg', 'png', 'jpeg', 'svg', 'bmp', 'gif', 'ico'];
+    const zip = ['7z', 'rar', 'gz', 'z', 'zip'];
+    const disk = ['bin', 'dmg', 'iso', 'toast', 'vcd'];
+    const data = ['csv', 'dat', 'db', 'dbf', 'log', 'mdb', 'sql', 'tar', 'xml'];
+
+    if (img.includes(ext)) {
+      return null;
+    }
+    if (zip.includes(ext)) {
+      return 'file-archive';
+    }
+
+    // Default case
+    return 'file';
+  }
+
   const linksItems = props.links.map(link => {
+    const ext = link.split('.').pop();
+    const icon = imageForExtension(ext);
+    
+    let display;
+    if (icon) {
+      const className = `fas fa-${icon}`;
+      display = <i className={className}></i>;
+    } else {
+      // display = <img className="card-img-top img-thumbnail" src={link} alt=""/>
+      display = <img src={link} alt=""/>
+    }
+
     return (
-      <div key="link" className="card" style={{width: "14rem"}}>
-        <img className="card-img-top" src={link} alt=""/>
-        <div className="card-body">
-          <a href="#" style={{width: "100%"}} className="btn_1 rounded">Copy link</a>
-        </div>
+      <div className="col-6 col-sm-4" key={link}>
+        <div class="thumbnail">
+          {display}
+       </div>
+       <button onClick={() => linkClicked(link)} className="btn_1 rounded">Copy link</button>
       </div>
     );
   });
 
-  
+  console.log('Rerender Recent links');
   return(
-    <div>
+    <div className="row justify-content-md-center">
       {linksItems}
     </div>
   )
