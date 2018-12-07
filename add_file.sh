@@ -4,8 +4,6 @@
 BLOCKS_FOLDER_PATH="blocks/"
 BLOCKNAME="b1"
 CURRENTDIR=$(pwd)
-git config --global user.email "store@morejust.store"
-git config --global user.name "Mr. Store"
 
 # solving problem with different func names (md5 / md5sum)
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -21,6 +19,10 @@ cd $BLOCKS_FOLDER_PATH
 git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$BLOCKNAME.git
 
 cd $BLOCKNAME
+
+git config --local user.name "Mr. Store"
+git config --local user.email "store@morejust.store"
+
 git checkout -b $BRANCHNAME
 
 for i in "$@"
