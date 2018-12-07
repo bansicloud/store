@@ -1,6 +1,25 @@
 # store
 
+## HEROKU DEPLOY
 
+To use this `heroku-deploy` branch:
+
+```bash
+git checkout heroku-deploy
+git fetch
+git reset --hard origin/master
+npm run build-front
+git add client/build
+git commit --allow-empty -m "build heroku"
+git push --force
+git checkout master
+```
+
+or simply
+
+```bash
+npm run deploy
+```
 
 ## How to use add_file.sh script
 

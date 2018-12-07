@@ -7,6 +7,8 @@
     "prestart": "source .env; npm run build-front",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-front": "cd client && npm i && npm run build && cd ..",
+    "deploy-front": "cd client && npm run deploy && cd ..",
+    "deploy": "sh deploy.sh",
     "start": "node app.js"
   },
   "keywords": [],
