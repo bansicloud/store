@@ -41,13 +41,24 @@ class FileForm extends Component {
     });
   }
 
+  filesChanged() {
+    const num = this.refs.formInput.files.length;
+    if (num > 0) {
+      this.refs.inputText.innerHTML = `You have selected ${num} file(s).`;
+    } else {
+      this.refs.inputText.innerHTML = `Drag your files here or click in this area.`;
+    }
+  }
 
   render() {
     return (
-      <form ref="form" onSubmit={this.submit.bind(this)} id="form-upload" method="post" encType="multipart/form-data">
-        <input ref="formInput" id="form-input" type="file" name="somefiles" multiple />
-        <input type="submit" />
-      </form>
+      <div className="form-wrapper">
+        <form ref="form" onSubmit={this.submit.bind(this)} id="form-upload" className="upload-form" method="post" encType="multipart/form-data">
+          <input ref="formInput" onChange={this.filesChanged.bind(this)} id="form-input" type="file" name="somefiles" multiple />
+          <p ref="inputText">Drag your files here or click in this area.</p>
+          <button className="btn_1 rounded" type="submit">Upload</button>
+        </form>
+      </div>
     );
   }
 }

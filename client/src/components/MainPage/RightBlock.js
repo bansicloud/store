@@ -22,10 +22,8 @@ class RightBlock extends Component {
     console.log(this.state.links);
     return (
       <div className="col-lg-6 content-right">
-				<div id="wizard_container">
-          <FileForm addLinks={this.addLinks.bind(this)} />
-          <RecentLinks links={this.state.links} />
-        </div>
+        <FileForm addLinks={this.addLinks.bind(this)} />
+        <RecentLinks links={this.state.links} />
 			</div>
     );
   }
