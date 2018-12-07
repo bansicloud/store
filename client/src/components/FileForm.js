@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 
+const DEV_API_ROOT = 'http://localhost:4000'
+const PROD_API_ROOT = 'https://morejust.herokuapp.com'
+const REL_API_ROOT = '/'
+
 class FileForm extends Component {
   constructor(props) {
     super(props);
 
-    const DEV_API_ROOT = 'http://localhost:4000'
-    const PROD_API_ROOT = 'https://morejust.herokuapp.com'
-    this.API_ROOT = window.location.hostname === 'localhost'
-      ? DEV_API_ROOT
-      : PROD_API_ROOT
+    this.API_ROOT = window.location.hostname === 'morejust.store'
+      ? PROD_API_ROOT
+      : REL_API_ROOT;
 
     this.state = {};
   }
