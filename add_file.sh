@@ -29,15 +29,19 @@ do
   FILENAME=$(basename $FILEPATH)
 	
   mv $FILEPATH ./
-  git add $FILENAME
-
-  FILELINK="https://raw.githubusercontent.com/morejust/$BLOCKNAME/$BRANCHNAME/$FILENAME"
-  echo $FILELINK
-	
+  git add $FILENAME	
 done
 
 git commit -m "add $@ to $BRANCHNAME branch"
 git push --set-upstream origin $BRANCHNAME
+
+# log file links
+for i in "$@"
+do
+  FILENAME=$(basename $i)
+  FILELINK="https://raw.githubusercontent.com/morejust/$BLOCKNAME/$BRANCHNAME/$FILENAME"
+  echo $FILELINK
+done
 
 # Finishing
 git checkout master
