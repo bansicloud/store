@@ -9,27 +9,27 @@ git config --global user.name "Mr. Store"
 
 # solving problem with different func names (md5 / md5sum)
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  BRANCHNAME=$(cat $@ | md5 | awk '{print $1}')
+  BRANCHNAME=$(cat "$@" | md5 | awk '{print $1}')
 else
-  BRANCHNAME=$(cat $@ | md5sum | awk '{print $1}')
+  BRANCHNAME=$(cat "$@" | md5sum | awk '{print $1}')
 fi
 
 
 mkdir -p $BLOCKS_FOLDER_PATH
 cd $BLOCKS_FOLDER_PATH
 
-git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$BLOCKNAME.git 
+git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$BLOCKNAME.git
 
 cd $BLOCKNAME
 git checkout -b $BRANCHNAME
 
 for i in "$@"
 do
-  FILEPATH=$i
-  FILENAME=$(basename $FILEPATH)
-	
-  mv $FILEPATH ./
-  git add $FILENAME	
+  FILEPATH="$i"
+  FILENAME=$(basename "$FILEPATH")
+
+  mv "$FILEPATH" ./
+  git add "$FILENAME"
 done
 
 git commit -m "add $@ to $BRANCHNAME branch"
@@ -38,9 +38,9 @@ git push --set-upstream origin $BRANCHNAME
 # log file links
 for i in "$@"
 do
-  FILENAME=$(basename $i)
+  FILENAME=$(basename "$i")
   FILELINK="https://raw.githubusercontent.com/morejust/$BLOCKNAME/$BRANCHNAME/$FILENAME"
-  echo $FILELINK
+  echo "$FILELINK"
 done
 
 # Finishing
