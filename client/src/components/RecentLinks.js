@@ -2,11 +2,13 @@ import React from 'react';
 
 import iconFile from '../img/file_icons/file.png';
 import iconZip from '../img/file_icons/zip.png';
+import copyText from './CopyText';
 
 function RecentLinks(props) {
 
   const linkClicked = (link) => {
     console.log('Copying', link);
+    copyText(link);
   }
 
   const imageForExtension = (ext) => {
@@ -29,7 +31,7 @@ function RecentLinks(props) {
   const linksItems = props.links.map(link => {
     const ext = link.split('.').pop();
     const icon = imageForExtension(ext);
-    
+
     let display;
     if (icon) {
       const className = `fas fa-${icon}`;
