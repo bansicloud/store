@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const DEV_API_ROOT = 'http://localhost:4000'
+// const DEV_API_ROOT = 'http://localhost:4000'
 const PROD_API_ROOT = 'https://morejust.herokuapp.com'
 
 class FileForm extends Component {

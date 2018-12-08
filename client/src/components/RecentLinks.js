@@ -1,7 +1,5 @@
 import React from 'react';
 
-import iconFile from '../img/file_icons/file.png';
-import iconZip from '../img/file_icons/zip.png';
 import copyText from './CopyText';
 
 function RecentLinks(props) {
@@ -14,8 +12,8 @@ function RecentLinks(props) {
   const imageForExtension = (ext) => {
     const img = ['jpg', 'png', 'jpeg', 'svg', 'bmp', 'gif', 'ico'];
     const zip = ['7z', 'rar', 'gz', 'z', 'zip'];
-    const disk = ['bin', 'dmg', 'iso', 'toast', 'vcd'];
-    const data = ['csv', 'dat', 'db', 'dbf', 'log', 'mdb', 'sql', 'tar', 'xml'];
+    // const disk = ['bin', 'dmg', 'iso', 'toast', 'vcd'];
+    // const data = ['csv', 'dat', 'db', 'dbf', 'log', 'mdb', 'sql', 'tar', 'xml'];
 
     if (img.includes(ext)) {
       return null;
