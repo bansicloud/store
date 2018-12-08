@@ -30,7 +30,7 @@ do
   FILEPATH="$i"
   FILENAME=$(basename "$FILEPATH")
 
-  mv "$FILEPATH" ./
+  mv "$FILEPATH" "./$FILENAME"
   git add "$FILENAME"
 done
 
