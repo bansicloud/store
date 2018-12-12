@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-// const DEV_API_ROOT = 'http://localhost:4000'
+const DEV_API_ROOT = 'http://localhost:4000'
 const PROD_API_ROOT = 'https://morejust.herokuapp.com'
 
 class FileForm extends Component {
@@ -9,7 +9,8 @@ class FileForm extends Component {
 
     this.API_ROOT = window.location.hostname === 'morejust.store'
       ? PROD_API_ROOT
-      : `//${window.location.host}`;
+      : DEV_API_ROOT;
+      // : `//${window.location.host}`;
 
     this.state = {};
   }

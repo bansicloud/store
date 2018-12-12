@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "source .env; nodemon app.js",
     "prestart": "source .env; npm run build-front",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-front": "cd client && npm i && npm run build && cd ..",

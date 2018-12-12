@@ -12,10 +12,24 @@ class RightBlock extends Component {
     }
   }
 
-  addLinks(links) {
+  componentWillMount() {
+    const localLinks = JSON.parse(localStorage.getItem('links'));
     this.setState({
-      links: this.state.links.concat(links)
+      links: localLinks
     });
+  }
+
+  addLinks(links) {
+    const concat = this.state.links.concat(links);
+    this.setState({
+      links: concat
+    });
+    this.saveToLocal(concat);
+  }
+
+  saveToLocal(links) {
+    const str = JSON.stringify(links);
+    localStorage.setItem('links', str);
   }
 
   render() {
