@@ -20,11 +20,17 @@ class RightBlock extends Component {
   }
 
   addLinks(links) {
-    const concat = this.state.links.concat(links);
+    let allLinks;
+    if (this.state.links) {
+      allLinks = this.state.links.concat(links);
+    } else {
+      allLinks = links;
+    }
+    
     this.setState({
-      links: concat
+      links: allLinks
     });
-    this.saveToLocal(concat);
+    this.saveToLocal(allLinks);
   }
 
   saveToLocal(links) {
