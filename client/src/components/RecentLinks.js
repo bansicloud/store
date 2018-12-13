@@ -1,6 +1,6 @@
 import React from 'react';
 
-import copyText from './CopyText';
+import copyText from './misc/CopyText';
 
 function RecentLinks(props) {
 
@@ -10,41 +10,56 @@ function RecentLinks(props) {
   }
 
   const imageForExtension = (ext) => {
-    const img = ['jpg', 'png', 'jpeg', 'svg', 'bmp', 'gif', 'ico'];
-    const zip = ['7z', 'rar', 'gz', 'z', 'zip'];
-    // const disk = ['bin', 'dmg', 'iso', 'toast', 'vcd'];
-    // const data = ['csv', 'dat', 'db', 'dbf', 'log', 'mdb', 'sql', 'tar', 'xml'];
+    const icons = {
+      'doc': 'https://image.flaticon.com/icons/svg/888/888883.svg',
+      'docx': 'https://image.flaticon.com/icons/svg/888/888883.svg',
+      'xls': 'https://image.flaticon.com/icons/svg/888/888850.svg',
+    };
 
-    if (img.includes(ext)) {
+    // Case for default img
+    if (['png', 'jpg', 'jpeg', 'svg'].includes(ext)) {
       return null;
     }
-    if (zip.includes(ext)) {
-      return 'file-archive';
+
+    if (icons[ext]) {
+      return icons[ext];
     }
 
     // Default case
-    return 'file';
+    return 'https://image.flaticon.com/icons/svg/149/149346.svg';
   }
 
   const linksItems = props.links.map(link => {
     const ext = link.split('.').pop();
     const icon = imageForExtension(ext);
+    const fileNameWithExt = link.split('/').pop();
 
-    let display;
-    if (icon) {
-      const className = `fas fa-${icon}`;
-      display = <i className={className}></i>;
+    // Shortening name
+    let fileName, displayName;
+    if (fileNameWithExt.length > 15) {
+      fileName = fileNameWithExt.split('.')[0];
+      displayName = fileName.substring(0, 10) + '... .' + ext;
     } else {
-      // display = <img className="card-img-top img-thumbnail" src={link} alt=""/>
-      display = <img src={link} alt=""/>
+      displayName = fileNameWithExt;
     }
 
+    let className, src;
+    if (icon) {
+      className = 'icon-preview';
+      src = icon;
+    } else {
+      className = 'img-preview';
+      src = link;
+    }
+
+    let image = <img className={className} src={src} alt="" />
+
     return (
-      <div className="col-6 col-sm-4" key={link}>
-        <div class="thumbnail">
-          {display}
-       </div>
-       <button onClick={() => linkClicked(link)} className="btn_1 rounded">Copy link</button>
+      <div className="card" key={link} onClick={() => linkClicked(link)}>
+        <p>{displayName}</p>
+        <div className="placeholder">
+          {image}
+        </div>
       </div>
     );
   });
@@ -52,7 +67,9 @@ function RecentLinks(props) {
   console.log('Rerender Recent links');
   return(
     <div className="row justify-content-md-center">
-      {linksItems}
+      <center>
+        {linksItems}
+      </center>
     </div>
   )
 }
