@@ -51,13 +51,12 @@ body {
   margin-bottom: 32px;
   display: inline-block;
   transition: all 0.5s ease-out;
-  cursor: pointer;
 }
 .card:hover {
   box-shadow: 0 2px 0 -1px #bdbdbd, 0 4px 0 -2px #bdbdbd, 0 0 2px #bdbdbd, 0 8px 16px #bdbdbd;
 }
 .card:active {
-  background: #bdbdbd;
+  background: #e0ebff;
   transition: all 0.2s;
   box-shadow: 0 2px 0 -1px #9e9e9e, 0 4px 0 -2px #9e9e9e, 0 0 2px #9e9e9e, 0 8px 16px #9e9e9e;
 }
@@ -92,6 +91,16 @@ body {
 .img-preview:active {
   background: #eee;
   box-shadow: 0 2px 8px #9e9e9e;
+}
+.card-btns {
+  top: -18px;
+  position: relative;
+}
+.card-btn {
+  padding: 5px;
+  margin: 0 3px;
+  font-size: .8em;
+  /* position: absolute; */
 }
 /* End Recent Links */
 

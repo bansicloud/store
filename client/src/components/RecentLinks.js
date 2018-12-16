@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Motion, spring } from 'react-motion';
+import uuidv1 from  'uuid/v1';
 
 import copyText from './misc/CopyText';
 
@@ -7,6 +10,11 @@ function RecentLinks(props) {
   const linkClicked = (link) => {
     console.log('Copying', link);
     copyText(link);
+  }
+
+  const openInNewTab = (url) => {
+    var win = window.open(url, '_blank');
+    win.focus();
   }
 
   const imageForExtension = (ext) => {
@@ -31,7 +39,7 @@ function RecentLinks(props) {
 
   const renderLinks = () => {
     if (props.links) {
-      return props.links.map(link => {
+      return props.links.map((link, index) => {
         const ext = link.split('.').pop();
         const icon = imageForExtension(ext);
         const fileNameWithExt = link.split('/').pop();
@@ -55,14 +63,34 @@ function RecentLinks(props) {
         }
     
         let image = <img className={className} src={src} alt="" />
-    
+
+        // Spring
+        // let 
+
+        console.log('Rerender Recent links');
+
+        if (props.added > index) {
+          console.log('awilebfqijwbfiqbfw');
+        }
         return (
-          <div className="card" key={link} onClick={() => linkClicked(link)}>
-            <p>{displayName}</p>
-            <div className="placeholder">
-              {image}
+          <Motion
+            defaultStyle={{ x: props.added > index ? 0 : 1 }}
+            style={{ x: spring(1) }}
+            key={uuidv1()}
+          >
+            {style => (
+              <div className="card" style={{ opacity: `${style.x}` }} >
+              <p>{displayName}</p>
+              <div className="placeholder" onClick={() => linkClicked(link)}>
+                {image}
+              </div>
+              <div className="card-btns">
+                <div onClick={() => linkClicked(link)} className="btn_1 card-btn">Copy link</div>
+                <div onClick={() => {openInNewTab(link)}} className="btn_1 card-btn">Proceed</div>
+              </div>
             </div>
-          </div>
+            )}
+          </Motion>
         );
       });
     } else {
@@ -77,12 +105,11 @@ function RecentLinks(props) {
     }
   }
 
-  console.log('Rerender Recent links');
   return(
     <div className="row justify-content-md-center">
       <center>
         {renderLinks()}
-        {/* {linksItems} */}
+        {props.allLinksBtn ? <Link to="/links" className="btn_1">View all links</Link> : ''}
       </center>
     </div>
   )
