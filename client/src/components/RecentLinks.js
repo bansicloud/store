@@ -86,7 +86,7 @@ function RecentLinks(props) {
               </div>
               <div className="card-btns">
                 <div onClick={() => linkClicked(link)} className="btn_1 card-btn">Copy link</div>
-                <div onClick={() => {openInNewTab(link)}} className="btn_1 card-btn">Proceed</div>
+                <div onClick={() => {openInNewTab(link)}} className="btn_1 card-btn">Download</div>
               </div>
             </div>
             )}
@@ -109,6 +109,7 @@ function RecentLinks(props) {
     <div className="row justify-content-md-center">
       <center>
         {renderLinks()}
+        <br/>
         {props.allLinksBtn ? <Link to="/links" className="btn_1">View all links</Link> : ''}
       </center>
     </div>

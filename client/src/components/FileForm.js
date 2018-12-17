@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Loader from './misc/Loader';
+import styled from "styled-components";
 
 const DEV_API_ROOT = 'http://localhost:4000'
 const PROD_API_ROOT = 'https://morejust.herokuapp.com'
@@ -12,7 +14,9 @@ class FileForm extends Component {
       : DEV_API_ROOT;
       // : `//${window.location.host}`;
 
-    this.state = {};
+    this.state = {
+      loading: false
+    };
   }
 
   submit(e) {
@@ -25,6 +29,10 @@ class FileForm extends Component {
     console.log('Generating links');
 
     var formData = new FormData(this.refs.form);
+    this.setState({ loading: true });
+
+    this.refs.formInput.value = '';
+    this.filesChanged();
 
     fetch(`${this.API_ROOT}/upload`, { // Your POST endpoint
       method: 'POST',
@@ -36,9 +44,13 @@ class FileForm extends Component {
     .then(data => {
       this.props.addLinks(data);
       console.log('FileForm received', data);
+
+      this.setState({ loading: false });
     })
     .catch(err => {
       console.error(err);
+
+      this.setState({ loading: false });
       alert(err.name + ": " + err.message);
     });
   }
@@ -52,6 +64,29 @@ class FileForm extends Component {
     }
   }
 
+  renderButton() {
+    if (this.state.loading) {
+      const Container = styled.div`
+        display: flex;
+        width: 100%;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+      `;
+      return (
+        <Container>
+          <Loader 
+            pColor='#434bdf'
+            height={15}
+            width={15}
+          />
+        </Container>
+      );
+    }
+
+    return <button ref="formSubmit" className="btn_1 rounded" type="submit">Upload</button>;
+  }
+
   render() {
     console.log('Rerender file form');
     return (
@@ -59,7 +94,7 @@ class FileForm extends Component {
         <form ref="form" onSubmit={this.submit.bind(this)} id="form-upload" className="upload-form" method="post" encType="multipart/form-data">
           <input ref="formInput" onChange={this.filesChanged.bind(this)} id="form-input" type="file" name="somefiles" multiple />
           <p ref="inputText">Drag your files here or click in this area.</p>
-          <button className="btn_1 rounded" type="submit">Upload</button>
+          {this.renderButton()}
         </form>
       </div>
     );
