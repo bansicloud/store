@@ -4,37 +4,17 @@ import { Motion, spring } from 'react-motion';
 import uuidv1 from  'uuid/v1';
 
 import copyText from './misc/CopyText';
+import imageForExtension from './misc/ImageForExtension';
 
 function RecentLinks(props) {
 
   const linkClicked = (link) => {
-    console.log('Copying', link);
     copyText(link);
   }
 
   const openInNewTab = (url) => {
     var win = window.open(url, '_blank');
     win.focus();
-  }
-
-  const imageForExtension = (ext) => {
-    const icons = {
-      'doc': 'https://image.flaticon.com/icons/svg/888/888883.svg',
-      'docx': 'https://image.flaticon.com/icons/svg/888/888883.svg',
-      'xls': 'https://image.flaticon.com/icons/svg/888/888850.svg',
-    };
-
-    // Case for default img
-    if (['png', 'jpg', 'jpeg', 'svg'].includes(ext)) {
-      return null;
-    }
-
-    if (icons[ext]) {
-      return icons[ext];
-    }
-
-    // Default case
-    return 'https://image.flaticon.com/icons/svg/149/149346.svg';
   }
 
   const renderLinks = () => {
@@ -44,7 +24,7 @@ function RecentLinks(props) {
         const icon = imageForExtension(ext);
         const fileNameWithExt = link.split('/').pop();
     
-        // Shortening name
+        // Shortening filename
         let fileName, displayName;
         if (fileNameWithExt.length > 15) {
           fileName = fileNameWithExt.split('.')[0];
@@ -52,7 +32,8 @@ function RecentLinks(props) {
         } else {
           displayName = fileNameWithExt;
         }
-    
+        
+        // Identifying to display an icon or an image in preview
         let className, src;
         if (icon) {
           className = 'icon-preview';
@@ -61,17 +42,7 @@ function RecentLinks(props) {
           className = 'img-preview';
           src = link;
         }
-    
-        let image = <img className={className} src={src} alt="" />
 
-        // Spring
-        // let 
-
-        console.log('Rerender Recent links');
-
-        if (props.added > index) {
-          console.log('awilebfqijwbfiqbfw');
-        }
         return (
           <Motion
             defaultStyle={{ x: props.added > index ? 0 : 1 }}
@@ -82,11 +53,11 @@ function RecentLinks(props) {
               <div className="card" style={{ opacity: `${style.x}` }} >
               <p>{displayName}</p>
               <div className="placeholder" onClick={() => linkClicked(link)}>
-                {image}
+                <img className={className} src={src} alt="" />
               </div>
               <div className="card-btns">
-                <div onClick={() => linkClicked(link)} className="btn_1 card-btn">Copy link</div>
-                <div onClick={() => {openInNewTab(link)}} className="btn_1 card-btn">Download</div>
+                <div onClick={() => linkClicked(link)} className="btn_1 card-btn"><i className="fas fa-copy"></i></div>
+                <div onClick={() => {openInNewTab(link)}} className="btn_1 card-btn"><i className="fas fa-file-download"></i></div>
               </div>
             </div>
             )}

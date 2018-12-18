@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import { toast } from 'react-toastify';
+
 import Loader from './misc/Loader';
-import styled from "styled-components";
 
 const DEV_API_ROOT = 'http://localhost:4000'
 const PROD_API_ROOT = 'https://morejust.herokuapp.com'
+const FILE_LIMIT = 5;
 
 class FileForm extends Component {
   constructor(props) {
@@ -17,16 +20,35 @@ class FileForm extends Component {
     this.state = {
       loading: false
     };
+    this.toastId = [];
   }
 
   submit(e) {
     e.preventDefault();
 
     if (this.refs.formInput.files.length < 1) {
-      console.log('Upload files first');
+
+      // Notification
+      const id = 'noFiles';
+      if (! toast.isActive(this.toastId[id])) {
+        this.toastId[id] = toast.info("📂 Select files first!", {
+          position: toast.POSITION.TOP_CENTER
+        });
+      }
       return;
     }
-    console.log('Generating links');
+
+    if(this.refs.formInput.files.length > FILE_LIMIT) {
+
+      // Notification
+      const id = 'fileLimit';
+      if (! toast.isActive(this.toastId[id])) {
+        this.toastId[id] = toast.error(`✋ You can upload ${FILE_LIMIT} files ot once`, {
+          position: toast.POSITION.TOP_CENTER
+        });
+      }
+      return;
+    }
 
     var formData = new FormData(this.refs.form);
     this.setState({ loading: true });
@@ -43,13 +65,10 @@ class FileForm extends Component {
     })
     .then(data => {
       this.props.addLinks(data);
-      console.log('FileForm received', data);
-
       this.setState({ loading: false });
     })
     .catch(err => {
       console.error(err);
-
       this.setState({ loading: false });
       alert(err.name + ": " + err.message);
     });
@@ -88,7 +107,6 @@ class FileForm extends Component {
   }
 
   render() {
-    console.log('Rerender file form');
     return (
       <div className="form-wrapper">
         <form ref="form" onSubmit={this.submit.bind(this)} id="form-upload" className="upload-form" method="post" encType="multipart/form-data">

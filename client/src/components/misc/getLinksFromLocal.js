@@ -5,6 +5,5 @@ export default function getLinksFromLocal() {
       localLinks = [];
     }
 
-    console.log('GetLinksFromLocal:', localLinks.length);
     return localLinks;
 }

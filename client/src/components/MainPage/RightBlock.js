@@ -29,12 +29,11 @@ class RightBlock extends Component {
   }
 
   saveToLocal(links) {
-    console.log("SaveToLocal:", links);
     const str = JSON.stringify(links);
     localStorage.setItem('links', str);
   }
 
-  // Saving to state all local links
+  // Updating state with all local links
   localLinksToState() {
     const links = getLinksFromLocal().reverse();
     const recentLinks = links.slice(0,6);
@@ -45,7 +44,7 @@ class RightBlock extends Component {
   }
 
   addLinks(links) {
-    console.log('Adding links, amount:', links.length);
+    // console.log('Adding links, amount:', links.length);
     this.setState({lastAddedAmount: links.length});
 
     // Get links from local store
@@ -64,7 +63,7 @@ class RightBlock extends Component {
   }
 
   render() {
-    console.log('Rerendering right block', this.state.recentLinks.length);
+    // console.log('Rerendering right block', this.state.recentLinks.length);
     return (
       <div className="col-lg-6 content-right">
         <FileForm addLinks={this.addLinks.bind(this)} />
