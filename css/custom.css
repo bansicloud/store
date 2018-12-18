@@ -42,7 +42,7 @@ body {
   user-select: none;
 }
 .card {
-  background: #efefef;
+  background: #fff;
   width: 160px;
   height: 120px;
   margin: 0 12px;
@@ -95,9 +95,12 @@ body {
 .card-btns {
   top: -18px;
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 6px;
 }
 .card-btn {
-  padding: 5px;
+  padding: 5px 8px;
   margin: 0 3px;
   font-size: .8em;
   /* position: absolute; */
