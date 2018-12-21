@@ -2,14 +2,14 @@
 
 # Consts
 BLOCKS_FOLDER_PATH="blocks/"
-BLOCKNAME="b1"
+BLOCKNAME="$1"
 CURRENTDIR=$(pwd)
 
 # solving problem with different func names (md5 / md5sum)
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  BRANCHNAME=$(cat "$@" | md5 | awk '{print $1}')
+  BRANCHNAME=$(cat "${@:2}" | md5 | awk '{print $1}')
 else
-  BRANCHNAME=$(cat "$@" | md5sum | awk '{print $1}')
+  BRANCHNAME=$(cat "${@:2}" | md5sum | awk '{print $1}')
 fi
 
 
