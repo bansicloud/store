@@ -12,23 +12,6 @@ body {
   margin-bottom: 80px;
 }
 
-/* .thumbnail {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  overflow: hidden;
-}
-.thumbnail img {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  height: 100%;
-  width: auto;
-  -webkit-transform: translate(-50%,-50%);
-      -ms-transform: translate(-50%,-50%);
-          transform: translate(-50%,-50%);
-} */
-
 /* Recent Links */
 .center {
   width: 95%;
@@ -107,6 +90,38 @@ body {
 }
 /* End Recent Links */
 
+
+/* Stats block */
+.block-stats {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+.block-stats p {
+  margin: 0;
+  display: inline-block;
+  margin-left: 5px;
+}
+.block-stats p:first-child {
+  margin-left: 0;
+}
+.stats-outer {
+  position: relative;
+  margin: 10px;
+  border-radius: 5px;
+  background: #bdc3c7;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #3a4550, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #3a4550, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.progress-bar {
+  display: block;
+}
+.progress-bar-animated {
+  animation-direction: reverse;
+}
+/* End Stats block */
+
 .upload-form {
   position: relative;
   width: 100%;
@@ -152,6 +167,17 @@ a.btn_1.rounded, .btn_1.rounded {
 
 @media only screen and (max-width: 1100px) {
   .form-wrapper {
-    width: 400px;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .block-stats {
+    position: relative;
+    margin-top: 20px;
+  }
+  .stats-outer {
+    margin: 0;
+    margin-top: 10px;
   }
 }
