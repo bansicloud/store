@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import FileForm from '../FileForm';
 import RecentLinks from '../RecentLinks';
+import BlockStats from '../BlockStats';
 
 import getLinksFromLocal from '../misc/getLinksFromLocal';
 
@@ -64,10 +65,13 @@ class RightBlock extends Component {
 
   render() {
     // console.log('Rerendering right block', this.state.recentLinks.length);
+    const {FILES_LIMIT, API_ROOT} = this.props.settings;
+
     return (
       <div className="col-lg-6 content-right">
-        <FileForm addLinks={this.addLinks.bind(this)} />
+        <FileForm addLinks={this.addLinks.bind(this)} FILES_LIMIT={FILES_LIMIT} API_ROOT={API_ROOT}/>
         <RecentLinks links={this.state.recentLinks} allLinksBtn={this.state.links > this.state.recentLinks} added={this.state.lastAddedAmount} />
+        <BlockStats API_ROOT={API_ROOT}/>
 			</div>
     );
   }

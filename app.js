@@ -53,6 +53,31 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
+// Getting once on client loading
+app.post('/initialInfo', (req, res) => {
+  res.send({
+    FILES_LIMIT: FILES_LIMIT
+  });
+});
+
+// Getting from stats block on client
+app.post('/stats', (req, res) => {
+
+  // Launc stats script
+
+  const currentBlock = 1;
+  const currentBlockSize = 140;
+  const maxBlockSize = 500;
+
+  const totalUploaded = 647;
+  res.send({
+    currentBlock,
+    currentBlockSize,
+    maxBlockSize,
+    totalUploaded
+  })
+});
+
 app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
 
   const file_uploads = req.files.reduce(

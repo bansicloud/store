@@ -4,18 +4,9 @@ import { toast } from 'react-toastify';
 
 import Loader from './misc/Loader';
 
-const DEV_API_ROOT = 'http://localhost:4000'
-const PROD_API_ROOT = 'https://morejust.herokuapp.com'
-const FILE_LIMIT = 5;
-
 class FileForm extends Component {
   constructor(props) {
     super(props);
-
-    this.API_ROOT = window.location.hostname === 'morejust.store'
-      ? PROD_API_ROOT
-      : DEV_API_ROOT;
-      // : `//${window.location.host}`;
 
     this.state = {
       loading: false
@@ -38,12 +29,12 @@ class FileForm extends Component {
       return;
     }
 
-    if(this.refs.formInput.files.length > FILE_LIMIT) {
+    if(this.refs.formInput.files.length > this.props.FILES_LIMIT) {
 
       // Notification
       const id = 'fileLimit';
       if (! toast.isActive(this.toastId[id])) {
-        this.toastId[id] = toast.error(`✋ You can upload ${FILE_LIMIT} files ot once`, {
+        this.toastId[id] = toast.error(`✋ You can upload ${this.props.FILES_LIMIT} files ot once`, {
           position: toast.POSITION.TOP_CENTER
         });
       }
@@ -56,7 +47,7 @@ class FileForm extends Component {
     this.refs.formInput.value = '';
     this.filesChanged();
 
-    fetch(`${this.API_ROOT}/upload`, { // Your POST endpoint
+    fetch(`${this.props.API_ROOT}/upload`, { // Your POST endpoint
       method: 'POST',
       body: formData // This is your file object
     })
