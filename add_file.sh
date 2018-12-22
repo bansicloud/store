@@ -35,15 +35,18 @@ do
 done
 
 git commit -m "add $@ to $BRANCHNAME branch"
-git push --set-upstream origin $BRANCHNAME
-
-# log file links
-for i in "${@:2}"
-do
-  FILENAME=$(basename "$i")
-  FILELINK="https://raw.githubusercontent.com/morejust/$BLOCKNAME/$BRANCHNAME/$FILENAME"
-  echo "$FILELINK"
-done
+if git push --set-upstream origin $BRANCHNAME
+then
+  # log file links
+  for i in "${@:2}"
+  do
+    FILENAME=$(basename "$i")
+    FILELINK="https://raw.githubusercontent.com/morejust/$BLOCKNAME/$BRANCHNAME/$FILENAME"
+    echo "$FILELINK"
+  done
+else 
+  echo "ERROR: upload failed."
+fi
 
 # Finishing
 git checkout master
