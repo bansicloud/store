@@ -1,3 +1,4 @@
+#!/bin/bash
 # Adds a new file to repo
 
 # Consts
