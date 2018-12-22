@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
+import Header from '../Header';
+import Footer from '../Footer';
 import RecentLinks from '../RecentLinks';
 
 import getLinksFromLocal from '../misc/getLinksFromLocal';
@@ -10,13 +11,12 @@ export default function DocsPage() {
   
   return(
     <div>
-      <div className="col-lg-12">
-        <h1>All links</h1>
-        <Link to="/">Go to main page</Link>
-      </div>
-      <div className="col-lg-12">
+      <Header />
+      <main role="main" className="container">
+        <h3 className="mt-3 mb-4">Your files:</h3>
         <RecentLinks links={links} />
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 }

@@ -7,7 +7,8 @@ import RightBlock from '../MainPage/RightBlock';
 
 // Local Settings of your app
 const DEV_API_ROOT = 'http://localhost:4000';
-const PROD_API_ROOT = 'https://morejust.herokuapp.com';
+// const PROD_API_ROOT = 'https://morejust.herokuapp.com';
+const PROD_API_ROOT = 'https://morejust.store';
 
 class MainPage extends Component {
   constructor(props) {

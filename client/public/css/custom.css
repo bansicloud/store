@@ -2,6 +2,31 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
+.header-left-col {
+  padding-left: 20px;
+}
+
+.header-user {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.header-user p {
+  margin: 0;
+  display: inline-block;
+}
+
+.title {
+  display: inline-block;
+  margin: 0;
+  font-size: 2em;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+.title-light {
+  color: #fff;
+}
+
 .content-right {
   overflow-y: initial;
   flex-direction: column;
@@ -102,9 +127,10 @@ body {
   margin: 0;
   display: inline-block;
   margin-left: 5px;
+  text-shadow: -1px 0px 2px black;
 }
 .block-stats p:first-child {
-  margin-left: 0;
+  margin-left: 4px;
 }
 .stats-outer {
   position: relative;
@@ -116,6 +142,7 @@ body {
 }
 .progress-bar {
   display: block;
+  background-color: #434bdf;
 }
 .progress-bar-animated {
   animation-direction: reverse;
@@ -168,16 +195,23 @@ a.btn_1.rounded, .btn_1.rounded {
 @media only screen and (max-width: 1100px) {
   .form-wrapper {
     width: 100%;
+    margin-top: 40px;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .block-stats {
     position: relative;
     margin-top: 20px;
   }
+}
+
+@media only screen and (max-width: 768px) {
   .stats-outer {
     margin: 0;
     margin-top: 10px;
+  }
+  .title {
+    font-size: 1.5em;
   }
 }

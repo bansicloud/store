@@ -25,10 +25,13 @@ export default class BlockStats extends Component {
     })
     .then(res => res.json())
     .then(data => {
+      // Keeping minimal value of currentBlockStat = 20%
+      const receivedBlockStat = Math.floor(data.currentBlockSize * 80 / (data.maxBlockSizeMB * 1000));
+      const currentBlockStat = receivedBlockStat + 20;
       this.setState({
         ...this.state,
         currentBlockText: data.currentBlock,
-        currentBlockStat: Math.floor(data.currentBlockSize * 100 / data.maxBlockSize),
+        currentBlockStat,
         totalText: data.totalUploaded / 1000
       })
       console.log('Got blocks stats', data);

@@ -111,9 +111,9 @@ app.post('/stats', async (req, res) => {
     res.send(stringify({
       currentBlock,
       currentBlockSize,
-      maxBlockSize: parseInt(process.env['BLOCK_SIZE_MB']),
+      maxBlockSizeMB: parseInt(process.env['BLOCK_SIZE_MB']),
       totalUploaded,
-      gitResponse: gitResponse
+      // gitResponse: gitResponse
     }));
   })
   .catch(function (error) {

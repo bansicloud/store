@@ -54,7 +54,7 @@ function RecentLinks(props) {
   }
 
   return(
-    <div className="row justify-content-md-center">
+    <div className="row justify-content-md-center mb-4">
       <center>
         {renderLinks()}
         <br/>
