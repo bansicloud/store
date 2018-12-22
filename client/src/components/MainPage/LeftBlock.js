@@ -11,10 +11,7 @@ export default function LeftBlock() {
 					<Link to="/" id="logo"><img src={logo} alt="" width="49" height="35" /></Link>
 					<div id="social">
 						<ul>
-							<li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>
-							<li><a href="#0"><i className="icon-twitter"></i></a></li>
-							<li><a href="#0"><i className="icon-google"></i></a></li>
-							<li><a href="#0"><i className="icon-linkedin"></i></a></li>
+							<li><a href="https://github.com/morejust/store" target="blank"><i className="fab fa-github"></i></a></li>
 						</ul>
 					</div>
 					<div>

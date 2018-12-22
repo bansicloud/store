@@ -25,15 +25,15 @@ let CURRENT_BLOCK = 1;
 
 app.use(cors());
 app.use(express.static(publicPath));
-app.use(function(req, res, next) {
-  // Website you wish to allow to connect
-  res.header('Access-Control-Allow-Origin', '*');
+// app.use(function(req, res, next) {
+//   // Website you wish to allow to connect
+//   res.header('Access-Control-Allow-Origin', '*');
 
-  // Request methods you wish to allow
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  
-  next();
-});
+//   // Request methods you wish to allow
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+//   next();
+// });
 
 // Custom function to handle uploads
 var storage = multer.diskStorage({
