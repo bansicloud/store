@@ -25,7 +25,7 @@ git config --local user.email "store@morejust.store"
 
 git checkout -b $BRANCHNAME
 
-for i in "$@"
+for i in "${@:2}"
 do
   FILEPATH="$i"
   FILENAME=$(basename "$FILEPATH")
@@ -38,7 +38,7 @@ git commit -m "add $@ to $BRANCHNAME branch"
 git push --set-upstream origin $BRANCHNAME
 
 # log file links
-for i in "$@"
+for i in "${@:2}"
 do
   FILENAME=$(basename "$i")
   FILELINK="https://raw.githubusercontent.com/morejust/$BLOCKNAME/$BRANCHNAME/$FILENAME"
