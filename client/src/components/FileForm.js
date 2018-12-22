@@ -4,6 +4,10 @@ import { toast } from 'react-toastify';
 
 import Loader from './misc/Loader';
 
+const myHeaders = new Headers({
+  "Access-Control-Allow-Origin": "*",
+});
+
 class FileForm extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +53,7 @@ class FileForm extends Component {
 
     fetch(`${this.props.API_ROOT}/upload`, { // Your POST endpoint
       method: 'POST',
+      headers: myHeaders,
       body: formData // This is your file object
     })
     .then(response => {
@@ -98,6 +103,7 @@ class FileForm extends Component {
   }
 
   render() {
+    console.log('Headers on');
     return (
       <div className="form-wrapper">
         <form ref="form" onSubmit={this.submit.bind(this)} id="form-upload" className="upload-form" method="post" encType="multipart/form-data">
