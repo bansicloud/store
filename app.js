@@ -9,9 +9,6 @@ const path = require('path');
 const { mkdir } = require('fs');
 
 const cors = require('cors');
-const corsOptions = {
-  origin: 'https://morejust.store',
-};
 
 const uploadToGithub = require('./upload')
 
@@ -26,7 +23,7 @@ const API_URL = `https://api.github.com/orgs/${process.env['ORGANIZATION_NAME']}
 const GITHUB_TOKEN = process.env['GITHUB_TOKEN'];
 let CURRENT_BLOCK = 1;
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.static(publicPath));
 app.use(function(req, res, next) {
   // Website you wish to allow to connect
