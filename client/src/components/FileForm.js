@@ -103,6 +103,7 @@ class FileForm extends Component {
   }
 
   render() {
+    console.log('Headers');
     return (
       <div className="form-wrapper">
         <form ref="form" onSubmit={this.submit.bind(this)} id="form-upload" className="upload-form" method="post" encType="multipart/form-data">
