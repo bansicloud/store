@@ -29,7 +29,7 @@ export default class BlockStats extends Component {
         ...this.state,
         currentBlockText: data.currentBlock,
         currentBlockStat: Math.floor(data.currentBlockSize * 100 / data.maxBlockSize),
-        totalText: data.totalUploaded
+        totalText: data.totalUploaded / 1000
       })
       console.log('Got blocks stats', data);
     })

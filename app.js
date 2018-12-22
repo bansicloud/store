@@ -130,7 +130,7 @@ app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
     (load, file) => load.then(async (urls) => {
       console.log("File was saved at:", file.path);
 
-      const file_url = await uploadToGithub(file.path);
+      const file_url = await uploadToGithub(`b${CURRENT_BLOCK}`, file.path);
 
       return [ ...urls, file_url ];
     }),
