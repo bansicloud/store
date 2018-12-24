@@ -7,33 +7,24 @@ require('dotenv').config()
 const multer  = require('multer')
 const path = require('path');
 const { mkdir } = require('fs');
-
 const cors = require('cors');
 
-const uploadToGithub = require('./upload')
+const { connectToGitHub, getStats, uploadFiles } = require('./repo');
 
 const app = express();
 const server = http.createServer(app);
 
-// Constants
+// CONSTANTS
 const port = process.env.PORT || 4000;
 const publicPath = path.join(__dirname, './client/build');
 const FILES_LIMIT = 5;
 const API_URL = `https://api.github.com/orgs/${process.env['ORGANIZATION_NAME']}`;
 const GITHUB_TOKEN = process.env['GITHUB_TOKEN'];
-let CURRENT_BLOCK = 1;
+
+let workingBlock = 1;
 
 app.use(cors());
 app.use(express.static(publicPath));
-// app.use(function(req, res, next) {
-//   // Website you wish to allow to connect
-//   res.header('Access-Control-Allow-Origin', '*');
-
-//   // Request methods you wish to allow
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-//   next();
-// });
 
 // Custom function to handle uploads
 var storage = multer.diskStorage({
@@ -52,42 +43,16 @@ var storage = multer.diskStorage({
   }
 });
 
-function getBlockInfo(gitResponse) {
-  let currentBlock = null;
-  let currentBlockSize = null;
-  let totalUploaded = 0;
+// Applying custom upload handler
+const upload = multer({ storage: storage })
 
-  // Getting current block
-  const pattern = new RegExp(/[.b]\d+/);
-  gitResponse.data.forEach(repo => {
-    if (pattern.test(repo.name)) {
-      const blockNum = repo.name.substring(1);
-      totalUploaded += repo.size;
 
-      if (!currentBlock) {
-        currentBlock = blockNum;
-        currentBlockSize = repo.size;
-      } else {
-        if (blockNum > currentBlock) {
-          currentBlock = blockNum;
-          currentBlockSize = repo.size;
-        }
-      }
-
-    }
-  });
-  return {
-    currentBlock: parseInt(currentBlock),
-    currentBlockSize,
-    totalUploaded
-  };
-}
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-// Getting once on client loading
+
 app.post('/initialInfo', (req, res) => {
   res.send({
     FILES_LIMIT: FILES_LIMIT,
@@ -96,64 +61,38 @@ app.post('/initialInfo', (req, res) => {
   });
 });
 
-// Getting from stats block on client
+
 app.post('/stats', async (req, res) => {
-
-  axios.get(`${API_URL}/repos?access_token=${GITHUB_TOKEN}`)
-  .then(gitResponse => {
-    const blockInfo = getBlockInfo(gitResponse);
-
-    const {currentBlock} = blockInfo;
-    const {currentBlockSize} = blockInfo;
-
-    const {totalUploaded} = blockInfo;
-
+  getStats()
+  .then(stats => {
     res.send(stringify({
-      currentBlock,
-      currentBlockSize,
-      maxBlockSizeMB: parseInt(process.env['BLOCK_SIZE_MB']),
-      totalUploaded,
-      // gitResponse: gitResponse
-    }));
-  })
-  .catch(function (error) {
-    console.log(error);
+      ...stats,
+      currentBlock: workingBlock
+    }))
   });
-  
 });
 
-// Applying custom upload handler
-const upload = multer({ storage: storage })
-
 app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
-
-  const file_uploads = req.files.reduce(
-    (load, file) => load.then(async (urls) => {
-      console.log("File was saved at:", file.path);
-
-      const file_url = await uploadToGithub(`b${CURRENT_BLOCK}`, file.path);
-
-      return [ ...urls, file_url ];
-    }),
-    Promise.resolve([])
-  );
-
-  file_uploads
-    .then(links => res.send(links))
-    .catch(err => res.status(500).json(err.message));
+  uploadFiles(req.files, workingBlock)
+  .then(links => {
+    res.send(links)
+  })
+  .catch(err => {
+    res.status(500).json(err.message)
+  });
 });
 
 /**
- * Initialization
+ * Server Initialization
  */ 
-axios.get(`${API_URL}/repos?access_token=${GITHUB_TOKEN}`)
-.then(gitResponse => {
-  const blockInfo = getBlockInfo(gitResponse);
-  CURRENT_BLOCK = blockInfo.currentBlock;
+connectToGitHub()
+.then(response => {
+  workingBlock = response.currentBlock;
+  console.log('Working with block', workingBlock);
 
   server.listen(port, () => {
     console.log(`App is open on port ${port}`);
-    console.log(`Current working block is ${CURRENT_BLOCK}`);
   });
-  
+
 });
+
