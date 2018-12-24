@@ -1,18 +1,26 @@
 #!/bin/bash
 # Adds a new file to repo
 
+# Params
+BLOCKNAME="$1"
+FILEPATH="$2"
+
 # Consts
 BLOCKS_FOLDER_PATH="blocks/"
-BLOCKNAME="$1"
 CURRENTDIR=$(pwd)
+
+####### PREPARATIONS #######
+if [ ! -f $FILEPATH ]; then
+  # TODO: if FILEPATH - is not absolute, condition will pass
+  echo "ERROR: File $FILEPATH not found!" && exit 1
+fi
 
 # solving problem with different func names (md5 / md5sum)
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  BRANCHNAME=$(cat "${@:2}" | md5 | awk '{print $1}')
+  BRANCHNAME=$(cat "$FILEPATH" | md5 | awk '{print $1}')
 else
-  BRANCHNAME=$(cat "${@:2}" | md5sum | awk '{print $1}')
+  BRANCHNAME=$(cat "$FILEPATH" | md5sum | awk '{print $1}')
 fi
-
 
 mkdir -p $BLOCKS_FOLDER_PATH
 cd $BLOCKS_FOLDER_PATH
@@ -21,32 +29,25 @@ git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$BL
 
 cd $BLOCKNAME
 
-git config --local user.name "Mr. Store"
+####### GIT STUFF #######
+git config --local user.name "morejust.store"
 git config --local user.email "store@morejust.store"
 
 git checkout -b $BRANCHNAME
 
-for i in "${@:2}"
-do
-  FILEPATH="$i"
-  FILENAME=$(basename "$FILEPATH")
+FILENAME=$(basename "$FILEPATH")
+mv "$FILEPATH" "./$FILENAME"
+git add "$FILENAME"
 
-  mv "$FILEPATH" "./$FILENAME"
-  git add "$FILENAME"
-done
-
-git commit -m "add $@ to $BRANCHNAME branch"
+git commit -m "add $FILENAME to $BRANCHNAME branch"
 if git push --set-upstream origin $BRANCHNAME
 then
-  # log file links
-  for i in "${@:2}"
-  do
-    FILENAME=$(basename "$i")
-    FILELINK="https://raw.githubusercontent.com/morejust/$BLOCKNAME/$BRANCHNAME/$FILENAME"
-    echo "$FILELINK"
-  done
+  # log file link
+  FILELINK="https://raw.githubusercontent.com/morejust/$BLOCKNAME/$BRANCHNAME/$FILENAME"
+  echo "$FILELINK"
 else 
-  echo "ERROR: upload failed."
+  mv "./$FILENAME" "$FILEPATH"
+  echo "ERROR: Upload failed."
 fi
 
 # Finishing
