@@ -1,6 +1,5 @@
 const http = require('http');
 const express = require('express');
-const axios = require('axios');
 const stringify = require('json-stringify-safe')
 require('dotenv').config()
 
@@ -9,7 +8,7 @@ const path = require('path');
 const { mkdir } = require('fs');
 const cors = require('cors');
 
-const { connectToGitHub, getStats, uploadFiles } = require('./repo');
+const { gitState, connectToGitHub, getStats, uploadFiles } = require('./repo');
 
 const app = express();
 const server = http.createServer(app);
@@ -18,10 +17,6 @@ const server = http.createServer(app);
 const port = process.env.PORT || 4000;
 const publicPath = path.join(__dirname, './client/build');
 const FILES_LIMIT = 5;
-const API_URL = `https://api.github.com/orgs/${process.env['ORGANIZATION_NAME']}`;
-const GITHUB_TOKEN = process.env['GITHUB_TOKEN'];
-
-let workingBlock = 1;
 
 app.use(cors());
 app.use(express.static(publicPath));
@@ -65,15 +60,12 @@ app.post('/initialInfo', (req, res) => {
 app.post('/stats', async (req, res) => {
   getStats()
   .then(stats => {
-    res.send(stringify({
-      ...stats,
-      currentBlock: workingBlock
-    }))
+    res.send(stringify(stats))
   });
 });
 
 app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
-  uploadFiles(req.files, workingBlock)
+  uploadFiles(req.files)
   .then(links => {
     res.send(links)
   })
@@ -86,12 +78,11 @@ app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
  * Server Initialization
  */ 
 connectToGitHub()
-.then(response => {
-  workingBlock = response.currentBlock;
-  console.log('Working with block', workingBlock);
+.then(() => {
+  console.log('[Server]: Working with block', gitState.workingBlock);
 
   server.listen(port, () => {
-    console.log(`App is open on port ${port}`);
+    console.log(`[Server]: App is open on port ${port}`);
   });
 
 });

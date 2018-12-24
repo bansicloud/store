@@ -1,5 +1,20 @@
 # store
 
+## Run Client & Server locally
+
+To run and test how it works on local computer, clone this repo.
+
+Start server:
+```bash
+npm run dev
+```
+
+Start client:
+```bash
+cd client
+npm start
+```
+
 ## HEROKU DEPLOY
 
 To use this `heroku-deploy` branch:

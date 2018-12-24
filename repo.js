@@ -7,53 +7,65 @@ const axios = require('axios');
 const uploadToGithub = require('./upload')
 
 const token = process.env['GITHUB_TOKEN'];
+const orgName = process.env['ORGANIZATION_NAME'];
 const API_URL = `https://api.github.com/orgs/${process.env['ORGANIZATION_NAME']}`;
 
-// Stores all created blocks at GitHub
-let createdBlocks = [];
+// Global state
+const gitState = {
+  workingBlock: 1
+}
 
 // Run once at server initialization
 function connectToGitHub() {
   return new Promise((resolve, reject) => {
-    axios.get(`${API_URL}/repos?access_token=${token}`)
-    .then(gitResponse => {
-      const blockInfo = getBlockInfo(gitResponse);
-      const currentBlock = blockInfo.currentBlock;
-
-      resolve({
-        currentBlock
-      });
+    switchToNextBlock(0)
+    .then(() => {
+      console.log('[connectToGithub]: New working block is', gitState.workingBlock);
+      resolve();
     })
     .catch(error => {
       console.log(error);
-      reject('🛑 Error connecting to GitHub');
-    });
+      reject();
+    })
   });
 }
 
 // Run on POST /stats
 function getStats() {
   return new Promise((resolve, reject) => {
-    axios.get(`${API_URL}/repos?access_token=${token}`)
-    .then(gitResponse => {
-      const blockInfo = getBlockInfo(gitResponse);
 
-      // const {currentBlock} = blockInfo;
-      const currentBlock = 47;
-      const {currentBlockSize} = blockInfo;
+    getRepoInfo().then(info => {
+      resolve({
+        currentBlock: gitState.workingBlock,
+        currentBlockSize: info.currentBlockSize,
+        maxBlockSizeMB: parseInt(process.env['BLOCK_SIZE_MB']),
+        totalUploaded: info.totalUploaded
+      });
+    });
+  });
+}
 
-      const {totalUploaded} = blockInfo;
+function getRepoInfo() {
+  let currentBlock = null;
+  let currentBlockSize = null;
+  let totalUploaded = 0;
+
+  return new Promise(resolve => {
+    getAllBlocks()
+    .then(blocks => {
+      Object.keys(blocks).forEach(blockName => {
+        const block = blocks[blockName];
+        // const blockNum = parseInt(blockName.substring(1));
+
+        totalUploaded += block.size;
+      });
+
+      currentBlockSize = blocks['b' + gitState.workingBlock].size;
 
       resolve({
-        currentBlock,
         currentBlockSize,
-        maxBlockSizeMB: parseInt(process.env['BLOCK_SIZE_MB']),
-        totalUploaded,
+        totalUploaded
       });
-    })
-    .catch(error => {
-      console.log(error);
-      reject('🛑 Unable to get stats from GitHub');
     });
   });
 }
@@ -74,10 +86,9 @@ function createBlock(blockNum) {
   };
 
   return new Promise((resolve, reject) => {
-    axios.post(`https://api.github.com/orgs/morejust/repos?access_token=${token}`, DATA)
+    axios.post(`https://api.github.com/orgs/${orgName}/repos?access_token=${token}`, DATA)
     .then(response => {
-      createdBlocks.push(blockNum);
-
+      console.log('✅ Block was created');
       resolve('✅ Block was created');
     })
     .catch(error => {
@@ -86,12 +97,10 @@ function createBlock(blockNum) {
   }); 
 }
 
-// UNABLE BECAUSE OF LACK OF PERMISSIONS
-// JUST LEAVE FOR NOW< NO NEED TO DELETE REPO
 function deleteBlock(number) {
   console.log('Deleting block', number);
 
-  axios.delete(`https://api.github.com/repos/morejust/b${blockNum}?access_token=${token}`)
+  axios.delete(`https://api.github.com/repos/${orgName}/b${blockNum}?access_token=${token}`)
   .then(response => {
     console.log(response);
     console.log('Repo was deleted');
@@ -102,50 +111,103 @@ function deleteBlock(number) {
   });
 }
 
-function getBlockInfo(gitResponse) {
-  const maxBlockSizeMB = process.env['BLOCK_SIZE_MB'];
-  let currentBlock = null;
-  let currentBlockSize = null;
-  let totalUploaded = 0;
+function switchToNextBlock(currentBlock) {
+  return new Promise((resolve, reject) => {
+    getAllBlocks()
+    .then(blocks => {
+      let needToCreateThisBlock = false;
 
-  // Getting current block
-  const pattern = new RegExp(/[.b]\d+/);
-  gitResponse.data.forEach(repo => {
+      // Just for test
+      // blocks['b1'].size = 1000000;
+      // blocks['b2'].size = 1000000;
+      // blocks['b3'].size = 1000000;
+      // blocks['b4'].size = 1000000;
 
-    // Going through each block
-    if (pattern.test(repo.name)) {
-      const blockNum = parseInt(repo.name.substring(1));
+      // Selecting next working block
+      let nextBlock = currentBlock;
+      while (true) {
+        nextBlock += 1;
 
-      // Appending block to createdBlocks array
-      !createdBlocks.includes(blockNum) ? createdBlocks.push(blockNum) : null;
-
-      totalUploaded += repo.size;
-
-      if (!currentBlock) {
-        currentBlock = blockNum;
-        currentBlockSize = repo.size;
-      } else {
-        if (blockNum > currentBlock) {
-          currentBlock = blockNum;
-          currentBlockSize = repo.size;
+        // If block exists
+        const selectedBlock = blocks['b' + nextBlock];
+        if (selectedBlock) {
+          
+          if (hasEnoughSpace(selectedBlock)) {
+            console.log('[SwitchBlocks]: Selecting block', nextBlock);
+            gitState.workingBlock = nextBlock;
+            break;
+          } else {
+            console.log('[SwitchBlocks]: Block', nextBlock, 'is full');
+          }
+        } else {
+          console.log('[SwitchBlocks]: Need to create b', nextBlock);
+          gitState.workingBlock = nextBlock;
+          needToCreateThisBlock = true;
+          break;
         }
       }
 
-    }
+      if (needToCreateThisBlock) {
+        createBlock(nextBlock)
+        .then(() => {
+          resolve('✅ New working block selected');
+        })
+        .catch((error) => {
+          console.log(error);
+          reject('🛑 Error in selecting next block');
+        })
+      } else {
+        resolve('✅ New working block selected');
+      }
+
+      // Object.keys(blocks).forEach(blockName => {
+      //   console.log(blockName, hasEnoughSpace(blocks[blockName]));
+      // });
+    });
   });
-  return {
-    currentBlock: parseInt(currentBlock),
-    currentBlockSize,
-    totalUploaded
-  };
 }
 
-function uploadFiles(files, workingBlock) {
+// Returns True if we can use block for uploads, otherwise - False
+function hasEnoughSpace(block) {
+  const maxBlockSizeMB = process.env['BLOCK_SIZE_MB'];
+  const maxFileSizeMB = process.env['MAX_FILE_SIZE_MB'];
+
+  return block.size < (maxBlockSizeMB - maxFileSizeMB) * 1000;
+}
+
+// Returns Object with all block {'b1': repo}
+function getAllBlocks() {
+  return new Promise((resolve, reject) => {
+    let blocks = {};
+
+    axios.get(`${API_URL}/repos?access_token=${token}`)
+    .then(gitResponse => {
+
+      // Going through each repo
+      const pattern = new RegExp(/[.b]\d+/);
+      gitResponse.data.forEach(repo => {
+
+        // It this repo is block
+        if (pattern.test(repo.name)) {
+          blocks[repo.name] = repo;
+        }
+      });
+
+      resolve(blocks);
+    })
+    .catch(error => {
+      console.log(error);
+      reject('🛑 Unable to get All Blocks from GitHub');
+    });
+  });
+}
+
+function uploadFiles(files) {
   return files.reduce(
     (load, file) => load.then(async (urls) => {
-      console.log("File was saved at:", file.path);
+      console.log("[uploadFiles]: File was saved at:", file.path);
 
-      const file_url = await uploadToGithub(`b${workingBlock}`, file.path);
+      const file_url = await uploadToGithub(`b${gitState.workingBlock}`, file.path);
 
       return [ ...urls, file_url ];
     }),
@@ -154,6 +216,7 @@ function uploadFiles(files, workingBlock) {
 }
 
 module.exports = {
+  gitState,
   connectToGitHub,
   getStats,
   uploadFiles
