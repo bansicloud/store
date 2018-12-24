@@ -16,7 +16,7 @@ module.exports = (blockName, filePath) => new Promise((resolve, reject) => {
       isResolved = true;
     };
 
-    if (data.includes('ERROR: upload failed.')) {
+    if (data.includes('ERROR: Upload failed.')) {
       // check error type here
       // reject({ error: 'unknown error' })
 
