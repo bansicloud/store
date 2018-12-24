@@ -94,7 +94,7 @@ function createBlock(blockNum) {
     .catch(error => {
       reject("⚠️ Block was not created");
     });
-  }); 
+  });
 }
 
 function deleteBlock(number) {
@@ -131,7 +131,7 @@ function switchToNextBlock() {
         // If block exists
         const selectedBlock = blocks['b' + nextBlock];
         if (selectedBlock) {
-          
+
           if (hasEnoughSpace(selectedBlock)) {
             console.log('[SwitchBlocks]: Selecting block', nextBlock);
             gitState.workingBlock = nextBlock;
@@ -202,12 +202,34 @@ function getAllBlocks() {
   });
 }
 
+function uploadToCurrentBlock(filePath) {
+  return uploadToGithub(`b${gitState.workingBlock}`, filePath);
+}
+
+async function uploadToNextBlock(filePath) {
+  await switchToNextBlock()
+
+  return uploadToCurrentBlock(filePath)
+}
+
+function upload(filePath) {
+  try {
+    return uploadToCurrentBlock(filePath)
+  } catch ({ error }) {
+    if (error !== 'no free space') {
+      throw error
+    }
+
+    return uploadToNextBlock(filePath)
+  }
+}
+
 function uploadFiles(files) {
   return files.reduce(
     (load, file) => load.then(async (urls) => {
       console.log("[uploadFiles]: File was saved at:", file.path);
 
-      const file_url = await uploadToGithub(`b${gitState.workingBlock}`, file.path);
+      const file_url = await upload(file.path);
 
       return [ ...urls, file_url ];
     }),
