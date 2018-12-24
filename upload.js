@@ -15,6 +15,17 @@ module.exports = (blockName, filePath) => new Promise((resolve, reject) => {
       resolve(data);
       isResolved = true;
     };
+
+    if (data.includes('ERROR: upload failed.')) {
+      // check error type here
+      // reject({ error: 'unknown error' })
+
+      // for now, let's always think the problem is free space
+      // BUT
+      // TODO: check if that's a connection error (e.g. when no internet access)
+      reject({ error: 'no free space' })
+      isResolved = true;
+    }
   });
 
   script.stderr.on('data', (data) => {
@@ -23,13 +34,7 @@ module.exports = (blockName, filePath) => new Promise((resolve, reject) => {
 
   script.on('exit', (code, signal) => {
     if (!isResolved) {
-      // check error type here
-      // reject({ code, signal, error: 'unknown error' })
-
-      // for now, let's always think the problem is free space
-      // BUT
-      // TODO: check if that's a connection error (e.g. when no internet access)
-      reject({ code, signal, error: 'no free space' })
+      reject({ code, signal, error: 'unknown error' })
     }
   })
 
