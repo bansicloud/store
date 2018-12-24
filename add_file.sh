@@ -46,6 +46,7 @@ then
   FILELINK="https://raw.githubusercontent.com/morejust/$BLOCKNAME/$BRANCHNAME/$FILENAME"
   echo "$FILELINK"
 else 
+  mv "./$FILENAME" "$FILEPATH"
   echo "ERROR: Upload failed."
 fi
 
