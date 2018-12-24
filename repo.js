@@ -12,13 +12,13 @@ const API_URL = `https://api.github.com/orgs/${process.env['ORGANIZATION_NAME']}
 
 // Global state
 const gitState = {
-  workingBlock: 1
+  workingBlock: 0
 }
 
 // Run once at server initialization
 function connectToGitHub() {
   return new Promise((resolve, reject) => {
-    switchToNextBlock(0)
+    switchToNextBlock()
     .then(() => {
       console.log('[connectToGithub]: New working block is', gitState.workingBlock);
       resolve();
@@ -111,7 +111,7 @@ function deleteBlock(number) {
   });
 }
 
-function switchToNextBlock(currentBlock) {
+function switchToNextBlock() {
   return new Promise((resolve, reject) => {
     getAllBlocks()
     .then(blocks => {
@@ -124,7 +124,7 @@ function switchToNextBlock(currentBlock) {
       // blocks['b4'].size = 1000000;
 
       // Selecting next working block
-      let nextBlock = currentBlock;
+      let nextBlock = gitState.workingBlock;
       while (true) {
         nextBlock += 1;
 
