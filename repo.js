@@ -32,21 +32,15 @@ function connectToGitHub() {
 
 // Run on POST /stats
 function getStats() {
-  return new Promise((resolve, reject) => {
-
-    getRepoInfo().then(info => {
-      resolve({
-        currentBlock: gitState.workingBlock,
-        currentBlockSize: info.currentBlockSize,
-        maxBlockSizeMB: parseInt(process.env['BLOCK_SIZE_MB']),
-        totalUploaded: info.totalUploaded
-      });
-    });
-  });
+  return getRepoInfo().then(info => ({
+    currentBlock: gitState.workingBlock,
+    currentBlockSize: info.currentBlockSize,
+    maxBlockSizeMB: parseInt(process.env['BLOCK_SIZE_MB']),
+    totalUploaded: info.totalUploaded
+}));
 }
 
 function getRepoInfo() {
-  let currentBlock = null;
   let currentBlockSize = null;
   let totalUploaded = 0;
 
@@ -55,8 +49,6 @@ function getRepoInfo() {
     .then(blocks => {
       Object.keys(blocks).forEach(blockName => {
         const block = blocks[blockName];
-        // const blockNum = parseInt(blockName.substring(1));
-
         totalUploaded += block.size;
       });
 
@@ -159,10 +151,6 @@ function switchToNextBlock() {
       } else {
         resolve('✅ New working block selected');
       }
-
-      // Object.keys(blocks).forEach(blockName => {
-      //   console.log(blockName, hasEnoughSpace(blocks[blockName]));
-      // });
     });
   });
 }

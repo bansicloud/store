@@ -58,7 +58,7 @@ export default class LinkItem extends Component {
     } else {
       return(
         <div className="card">
-          <p>Upload your first file!</p>
+          <p>Upload some files!</p>
           <div className="placeholder">
             <img className="icon-preview" src="https://image.flaticon.com/icons/svg/1055/1055646.svg" alt=""/>
           </div>

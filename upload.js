@@ -1,5 +1,4 @@
 const { exec } = require('child_process');
-const repoPath = process.env.REPO_PATH || 'blocks/';  // TODO: move to global constant
 
 module.exports = (blockName, filePath) => new Promise((resolve, reject) => {
   let isResolved = false

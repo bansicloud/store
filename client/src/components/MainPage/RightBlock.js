@@ -39,7 +39,7 @@ class RightBlock extends Component {
   // Updating state with all local links
   localLinksToState() {
     const links = getLinksFromLocal().reverse();
-    const recentLinks = links.slice(0,4);
+    const recentLinks = links.slice(0,3);
     this.setState({
       links,
       recentLinks
@@ -71,7 +71,7 @@ class RightBlock extends Component {
 
     return (
       <div className="col-lg-6 content-right">
-        <HeaderUser />
+        {this.state.recentLinks.length ? <HeaderUser /> : ''}
         <FileForm addLinks={this.addLinks.bind(this)} FILES_LIMIT={FILES_LIMIT} API_ROOT={API_ROOT}/>
         <RecentLinks links={this.state.recentLinks} allLinksBtn={this.state.links > this.state.recentLinks} added={this.state.lastAddedAmount} />
         <BlockStats API_ROOT={API_ROOT}/>

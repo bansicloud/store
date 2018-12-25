@@ -7,7 +7,7 @@ export default function HeaderUser () {
       <div className="container-fluid">
         <div className="row">
           <div className="col-8 header-left-col">
-            <p>Welcome back, guest</p>
+            <p>Welcome back, user</p>
           </div>
           <div className="col-4">
             <div id="social">
