@@ -94,7 +94,7 @@ function createBlock(blockNum) {
     .catch(error => {
       reject("⚠️ Block was not created");
     });
-  }); 
+  });
 }
 
 function deleteBlock(number) {
@@ -131,7 +131,7 @@ function switchToNextBlock() {
         // If block exists
         const selectedBlock = blocks['b' + nextBlock];
         if (selectedBlock) {
-          
+
           if (hasEnoughSpace(selectedBlock)) {
             console.log('[SwitchBlocks]: Selecting block', nextBlock);
             gitState.workingBlock = nextBlock;
@@ -202,14 +202,51 @@ function getAllBlocks() {
   });
 }
 
+function uploadToCurrentBlock(filePath) {
+  return uploadToGithub(`b${gitState.workingBlock}`, filePath);
+}
+
+async function uploadToNextBlock(filePath) {
+  console.log('[uploadToNextBlock]:', '-> switching to next block')
+  await switchToNextBlock()
+
+  return await uploadToCurrentBlock(filePath)
+}
+
+async function upload(filePath) {
+  console.log('[upload]:', 'uploading', filePath)
+
+  try {
+    console.log('[upload]:', '== trying upload to current block')
+
+    return await uploadToCurrentBlock(filePath)
+  } catch ({ error }) {
+    if (error !== 'no free space') {
+      console.error('[upload]:', 'xxx error:', error)
+      throw error
+    }
+
+    console.log('[upload]:', '== trying upload to next block')
+
+    return uploadToNextBlock(filePath)
+  }
+}
+
 function uploadFiles(files) {
   return files.reduce(
     (load, file) => load.then(async (urls) => {
       console.log("[uploadFiles]: File was saved at:", file.path);
 
-      const file_url = await uploadToGithub(`b${gitState.workingBlock}`, file.path);
+      try {
+        const file_url = await upload(file.path);
 
-      return [ ...urls, file_url ];
+        return [ ...urls, file_url ];
+      } catch (err) {
+        console.error("[uploadFiles]:", 'Error uploading file', file.path);
+        console.error(err);
+
+        return [ ...urls, '' ];
+      }
     }),
     Promise.resolve([])
   );
