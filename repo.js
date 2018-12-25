@@ -7,8 +7,16 @@ const axios = require('axios');
 const uploadToGithub = require('./upload')
 
 const token = process.env['GITHUB_TOKEN'];
-const orgName = process.env['ORGANIZATION_NAME'];
-const API_URL = `https://api.github.com/orgs/${process.env['ORGANIZATION_NAME']}`;
+const maxBlockSizeMB = parseInt(process.env['BLOCK_SIZE_MB']) || 1000;
+const maxFileSizeMB = parseInt(process.env['MAX_FILE_SIZE_MB']) || 50;
+let API_URL;
+
+if (process.env['ORGANIZATION_NAME']) {
+  API_URL = `https://api.github.com/orgs/${process.env['ORGANIZATION_NAME']}`;
+} else {
+  API_URL = "https://api.github.com/user";
+}
+
 
 // Global state
 const gitState = {
@@ -35,7 +43,7 @@ function getStats() {
   return getRepoInfo().then(info => ({
     currentBlock: gitState.workingBlock,
     currentBlockSize: info.currentBlockSize,
-    maxBlockSizeMB: parseInt(process.env['BLOCK_SIZE_MB']),
+    maxBlockSizeMB: maxBlockSizeMB,
     totalUploaded: info.totalUploaded
 }));
 }
@@ -78,7 +86,7 @@ function createBlock(blockNum) {
   };
 
   return new Promise((resolve, reject) => {
-    axios.post(`https://api.github.com/orgs/${orgName}/repos?access_token=${token}`, DATA)
+    axios.post(`${API_URL}/repos?access_token=${token}`, DATA)
     .then(response => {
       console.log('✅ Block was created');
       resolve('✅ Block was created');
@@ -86,20 +94,6 @@ function createBlock(blockNum) {
     .catch(error => {
       reject("⚠️ Block was not created");
     });
-  });
-}
-
-function deleteBlock(number) {
-  console.log('Deleting block', number);
-
-  axios.delete(`https://api.github.com/repos/${orgName}/b${blockNum}?access_token=${token}`)
-  .then(response => {
-    console.log(response);
-    console.log('Repo was deleted');
-  })
-  .catch(error => {
-    console.log(error);
-    console.log('Error while deleting repo');
   });
 }
 
@@ -157,9 +151,6 @@ function switchToNextBlock() {
 
 // Returns True if we can use block for uploads, otherwise - False
 function hasEnoughSpace(block) {
-  const maxBlockSizeMB = process.env['BLOCK_SIZE_MB'];
-  const maxFileSizeMB = process.env['MAX_FILE_SIZE_MB'];
-
   return block.size < (maxBlockSizeMB - maxFileSizeMB) * 1000;
 }
 

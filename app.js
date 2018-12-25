@@ -17,6 +17,7 @@ const server = http.createServer(app);
 const port = process.env.PORT || 4000;
 const publicPath = path.join(__dirname, './client/build');
 const FILES_LIMIT = 5;
+const MAX_FILE_SIZE_MB = parseInt(process.env['MAX_FILE_SIZE_MB']) || 50;
 
 app.use(cors());
 app.use(express.static(publicPath));
@@ -51,8 +52,7 @@ app.get('/', (req, res) => {
 app.post('/initialInfo', (req, res) => {
   res.send({
     FILES_LIMIT: FILES_LIMIT,
-    MAX_FILE_SIZE_MB: parseInt(process.env['MAX_FILE_SIZE_MB']),
-    ORGANIZATION_NAME: process.env['ORGANIZATION_NAME']
+    MAX_FILE_SIZE_MB: MAX_FILE_SIZE_MB
   });
 });
 
