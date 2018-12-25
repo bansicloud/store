@@ -22,27 +22,28 @@ class FileForm extends Component {
     e.preventDefault();
 
     if (this.refs.formInput.files.length < 1) {
-
-      // Notification
-      const id = 'noFiles';
-      if (! toast.isActive(this.toastId[id])) {
-        this.toastId[id] = toast.info("📂 Select files first!", {
-          position: toast.POSITION.TOP_CENTER
-        });
-      }
+      this.notify('noFiles', "📂 Select files first!");
       return;
     }
 
     if(this.refs.formInput.files.length > this.props.FILES_LIMIT) {
-
-      // Notification
-      const id = 'fileLimit';
-      if (! toast.isActive(this.toastId[id])) {
-        this.toastId[id] = toast.error(`✋ You can upload ${this.props.FILES_LIMIT} files ot once`, {
-          position: toast.POSITION.TOP_CENTER
-        });
-      }
+      this.notify('fileLimit', `✋ You can upload ${this.props.FILES_LIMIT} files ot once`);
       return;
+    }
+
+    // Going through each file to check its limit 
+    const files = this.refs.formInput.files;
+    const maxFileSize = this.props.MAX_FILE_SIZE_MB * 1000000;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (file.size >= maxFileSize) {
+
+        this.notify('fileSize', `🛑 File ${file.name} exceeds a size limit. Currently we support files no bigger than ${this.props.MAX_FILE_SIZE_MB} mb.`);
+        this.refs.formInput.value = '';
+        this.filesChanged();
+        return;
+      }
     }
 
     var formData = new FormData(this.refs.form);
@@ -76,6 +77,14 @@ class FileForm extends Component {
       this.refs.inputText.innerHTML = `You have selected ${num} file(s).`;
     } else {
       this.refs.inputText.innerHTML = `Drag your files here or click in this area.`;
+    }
+  }
+
+  notify(id, text) {
+    if (! toast.isActive(this.toastId[id])) {
+      this.toastId[id] = toast.error(text, {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   }
 
