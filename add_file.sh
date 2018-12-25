@@ -17,9 +17,9 @@ fi
 
 # solving problem with different func names (md5 / md5sum)
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  BRANCHNAME=$(cat "$FILEPATH" | md5 | awk '{print $1}')
+  BRANCHNAME=$((cat "$FILEPATH"; date +%s) | md5 | awk '{print $1}')
 else
-  BRANCHNAME=$(cat "$FILEPATH" | md5sum | awk '{print $1}')
+  BRANCHNAME=$((cat "$FILEPATH"; date +%s) | md5sum | awk '{print $1}')
 fi
 
 mkdir -p $BLOCKS_FOLDER_PATH
