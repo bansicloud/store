@@ -11,6 +11,7 @@ fi
 git branch heroku-deploy
 git checkout heroku-deploy
 git fetch
+git pull
 
 # take all files from master
 git checkout master .
