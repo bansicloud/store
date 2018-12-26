@@ -1,10 +1,28 @@
+# save local changes
+git stash
+
+# update heroku-deploy branch
 git branch heroku-deploy
 git checkout heroku-deploy
 git fetch
-git rebase master
+
+# take all files from master
+git checkout master .
+git add .
+
+# build front and add to commit
 npm run build-front
 git add -f client/build
-git commit --allow-empty -m "build heroku"
-# git push --force --set-upstream origin heroku-deploy
+
+# commit
+DATE=`date '+%Y-%m-%d %H:%M:%S'`
+git commit --allow-empty -m "build heroku $DATE"
+
+# send updates to branch
+git push --force --set-upstream origin heroku-deploy
 git push --force --quiet "https://$GITHUB_TOKEN@github.com/morejust/store.git" master:heroku-deploy
+
+# restore local state
 git checkout master
+git stash pop
+
