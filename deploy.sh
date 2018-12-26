@@ -11,7 +11,16 @@ fi
 rm -rf client/build
 git branch heroku-deploy
 git checkout heroku-deploy
-git remote add upstream "https://$GITHUB_TOKEN@github.com/morejust/store.git"
+
+if [ -z $CI ]
+then
+	echo local
+	git remote add upstream git@github.com:morejust/store.git
+else
+	echo ci
+	git remote add upstream "https://$GITHUB_TOKEN@github.com/morejust/store.git"
+fi
+
 git fetch upstream
 git reset --hard upstream/heroku-deploy
 
@@ -30,15 +39,9 @@ DATE=`date '+%Y-%m-%d %H:%M:%S'`
 git commit --allow-empty -m "build heroku $DATE"
 
 # send updates to branch
+echo push
 git push --set-upstream upstream heroku-deploy
 
-# if [ -z $CI ]
-# then
-# 	echo push local
-# else
-# 	echo push ci
-# 	git push --quiet "https://$GITHUB_TOKEN@github.com/morejust/store.git" master:heroku-deploy
-# fi
 
 # restore local state
 git reset --hard
