@@ -6,8 +6,18 @@ import LeftBlock from '../MainPage/LeftBlock';
 import RightBlock from '../MainPage/RightBlock';
 
 // Local Settings of your app
-const DEV_API_ROOT = 'http://localhost:4000';
-const PROD_API_ROOT = 'https://morejust.herokuapp.com';
+const LOCAL_API_ROOT = 'http://localhost:4000';
+const MAIN_PROD_API_ROOT = 'https://morejust.herokuapp.com';
+
+const selectAPI = origin => {
+  if (origin.includes('localhost')) {
+    return LOCAL_API_ROOT;
+  } else if (origin === 'https://morejust.store') {
+    return MAIN_PROD_API_ROOT;
+  } else {
+    return origin;
+  }
+}
 
 class MainPage extends Component {
   constructor(props) {
@@ -19,30 +29,27 @@ class MainPage extends Component {
   }
 
   componentWillMount() {
-    this.API_ROOT = window.location.hostname === 'morejust.store'
-      ? PROD_API_ROOT
-      : DEV_API_ROOT;
-      // : `//${window.location.host}`;
+    const apiRoot = selectAPI(window.location.origin);
 
     this.setState({
       settings: {
-        ...this.state.settings,
-        API_ROOT: this.API_ROOT
+	...this.state.settings,
+        API_ROOT: apiRoot,
       }
     })
 
-    this.fetchInitialInfo();
+    this.fetchInitialInfo(apiRoot);
   }
 
   // Initial loading of app settings
-  fetchInitialInfo() {
-    fetch(`${this.API_ROOT}/initialInfo`, {
+  fetchInitialInfo(apiRoot) {
+    fetch(`${apiRoot}/initialInfo`, {
       method: 'POST'
     })
     .then(res => res.json())
     .then(data => {
       this.setState({
-        settings: {...this.state.settings, ...data}
+        settings: { ...this.state.settings, ...data }
       });
       console.log('SetUp initial settings', this.state.settings);
     })
