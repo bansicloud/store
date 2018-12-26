@@ -25,13 +25,13 @@ DATE=`date '+%Y-%m-%d %H:%M:%S'`
 git commit --allow-empty -m "build heroku $DATE"
 
 # send updates to branch
-if $CI
+if [ -z $CI ]
 then
-	echo push ci
-	# git push --force --quiet "https://$GITHUB_TOKEN@github.com/morejust/store.git" master:heroku-deploy
-else
 	echo push local
 	git push --force --set-upstream origin heroku-deploy
+else
+	echo push ci
+	git push --force --quiet "https://$GITHUB_TOKEN@github.com/morejust/store.git" master:heroku-deploy
 fi
 
 # restore local state
