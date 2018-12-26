@@ -5,8 +5,8 @@ node_js:
 install:
 - npm i
 script:
-- npm run deploy
 - npm run build-front
+- npm run deploy
 deploy:
     provider: pages
     skip-cleanup: true
