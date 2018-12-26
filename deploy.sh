@@ -1,5 +1,11 @@
 # save local changes
-git stash
+if ! git diff-files --quiet
+then
+	LOCAL_CHANGES=true
+	git stash
+else
+	LOCAL_CHANGES=false
+fi
 
 # update heroku-deploy branch
 git branch heroku-deploy
@@ -24,5 +30,9 @@ git push --force --quiet "https://$GITHUB_TOKEN@github.com/morejust/store.git" m
 
 # restore local state
 git checkout master
-git stash pop
+
+if $LOCAL_CHANGES
+then
+	git stash pop
+fi
 
