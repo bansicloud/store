@@ -11,10 +11,12 @@ fi
 git branch heroku-deploy
 git checkout heroku-deploy
 git fetch
+git pull
 
 # take all files from master
 git checkout master .
 git add .
+git reset client/.gitignore
 
 # build front and add to commit
 npm run build-front
@@ -35,6 +37,7 @@ else
 fi
 
 # restore local state
+git reset --hard
 git checkout master
 
 if $LOCAL_CHANGES

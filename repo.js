@@ -91,8 +91,8 @@ function createBlock(blockNum) {
       console.log('✅ Block was created');
       resolve('✅ Block was created');
     })
-    .catch(error => {
-      reject("⚠️ Block was not created");
+    .catch(({ message }) => {
+      reject(`⚠️  Block was not created, errorMessage=${message}`);
     });
   });
 }
