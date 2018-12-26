@@ -1,4 +1,4 @@
-# [Morejust.store](https://morejust.store) :briefcase:
+# [Morejust.store](https://morejust.store) :briefcase: [![Build Status](https://travis-ci.org/morejust/store.svg?branch=master)](https://travis-ci.org/morejust/store)
 Create your own free unlimited cloud storage! Our tool uses GitHub-as-a-storage to save there the uploaded files. You can use [our deployed tool](https://morejust.store) or run it by yourself - see below for instructions.
 
 ## How to deploy
