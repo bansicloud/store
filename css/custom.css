@@ -28,7 +28,6 @@ body {
 }
 
 .content-right {
-  overflow-y: initial;
   flex-direction: column;
 }
 
@@ -51,12 +50,12 @@ body {
 }
 .card {
   background: #fff;
-  width: 160px;
+  width: 140px;
   height: 120px;
-  margin: 0 12px;
+  margin: 0 6px;
   box-shadow: 0 2px 0 -1px #bdbdbd, 0 4px 0 -2px #bdbdbd, 0 0 2px #bdbdbd;
   border-radius: 2px 2px 0 0;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
   display: inline-block;
   transition: all 0.5s ease-out;
 }
@@ -80,7 +79,7 @@ body {
   background: #e0e0e0;
 }
 .placeholder {
-  width: 146px;
+  width: 100%;
   height: 72px;
   overflow: hidden;
   margin-top: 8px;
@@ -194,12 +193,28 @@ a.btn_1.rounded, .btn_1.rounded {
 
 @media only screen and (max-width: 1100px) {
   .form-wrapper {
-    width: 100%;
-    margin-top: 40px;
+    width: 95%;
+  }
+  .card {
+    width: 120px;
+    height: 100px;
+  }
+  .placeholder {
+    height: 52px;
+  }
+  .icon-preview {
+    width: 52px;
+  }
+  .card p {
+    font-size: 10px;
   }
 }
 
 @media only screen and (max-width: 991px) {
+  .form-wrapper {
+    width: 100%;
+    margin-top: 40px;
+  }
   .block-stats {
     position: relative;
     margin-top: 20px;
