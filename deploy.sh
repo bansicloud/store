@@ -8,10 +8,12 @@ else
 fi
 
 # update heroku-deploy branch
+rm -rf client/build
 git branch heroku-deploy
 git checkout heroku-deploy
-git fetch
-git pull
+git remote set-url origin "https://$GITHUB_TOKEN@github.com/morejust/store.git" 
+git fetch origin
+git reset --hard origin/heroku-deploy
 
 # take all files from master
 git checkout master .
@@ -30,10 +32,10 @@ git commit --allow-empty -m "build heroku $DATE"
 if [ -z $CI ]
 then
 	echo push local
-	git push --force --set-upstream origin heroku-deploy
+	git push --set-upstream origin heroku-deploy
 else
 	echo push ci
-	git push --force --quiet "https://$GITHUB_TOKEN@github.com/morejust/store.git" master:heroku-deploy
+	git push --quiet "https://$GITHUB_TOKEN@github.com/morejust/store.git" master:heroku-deploy
 fi
 
 # restore local state
