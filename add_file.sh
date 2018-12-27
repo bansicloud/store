@@ -8,6 +8,13 @@ FILEPATH="$2"
 # Consts
 BLOCKS_FOLDER_PATH="blocks/"
 CURRENTDIR=$(pwd)
+if [ -z ${GITHUB_ORGANIZATION+x} ]; then 
+  GITHUB_ACCOUNT=$GITHUB_USERNAME; 
+else 
+  GITHUB_ACCOUNT=$GITHUB_ORGANIZATION; 
+fi
+
+
 
 ####### PREPARATIONS #######
 if [ ! -f $FILEPATH ]; then
@@ -25,7 +32,7 @@ fi
 mkdir -p $BLOCKS_FOLDER_PATH
 cd $BLOCKS_FOLDER_PATH
 
-git clone -b master --depth 1 https://ohld:$GITHUB_TOKEN@github.com/morejust/$BLOCKNAME.git
+git clone -b master --depth 1 https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_ACCOUNT/$BLOCKNAME.git
 
 cd $BLOCKNAME
 
@@ -43,7 +50,7 @@ git commit -m "add $FILENAME to $BRANCHNAME branch"
 if git push --set-upstream origin $BRANCHNAME
 then
   # log file link
-  FILELINK="https://raw.githubusercontent.com/morejust/$BLOCKNAME/$BRANCHNAME/$FILENAME"
+  FILELINK="https://raw.githubusercontent.com/$GITHUB_ACCOUNT/$BLOCKNAME/$BRANCHNAME/$FILENAME"
   echo "$FILELINK"
 else 
   mv "./$FILENAME" "$FILEPATH"
