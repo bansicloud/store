@@ -12,7 +12,8 @@ Create your own free unlimited cloud storage! Our tool uses GitHub-as-a-storage 
 
 #### :one: Create GitHub token
 1. Register on GitHub and go to [Settings -> Developer Settings -> Personal Access Tokens -> Generate new token](https://github.com/settings/tokens/new)
-2. Give it a random name, scroll below and smash **Generate**. You don't have to add any additional rights if you want to store your files on public repositories.
+2. Give it a random name, select **public repo** and scroll below and smash **Generate**. You don't have to add any additional rights if you want to store your files on public repositories.
+<img src="https://raw.githubusercontent.com/morejust/b1/479c307d68d1181384cbe76e9efcb3d4/Screenshot%202018-12-27%20at%2014.40.19.png" height="300">
 3. Copy generated GitHub token and go to the next part: deployment.
 
 #### :two: Deploy to Heroku
