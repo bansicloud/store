@@ -20,9 +20,9 @@ export default function LeftBlock() {
 					<div>
 						<figure><img src={infoGraphic} alt="" className="img-fluid" /></figure>
 						<h2>Store Files Simple.<br/>Free. Forever</h2>
-						<p>Todo some interesting text & facts. Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas concludaturque usu, facete detracto patrioque an per, lucilius pertinacia eu vel. Adhuc invidunt duo ex. Eu tantas dolorum ullamcorper qui.</p>
-						<Link to="/docs" className="btn_1 rounded">Start Now!</Link>
-						<Link to="/docs" className="btn_1 rounded mobile_btn">Start Now!</Link>
+						<p>We use public GitHub repositories to store your files for free. You can create your own free unlimited cloud storage even on private repos. </p>
+						<Link to="https://github.com/morejust/store/blob/master/README.md" className="btn_1 rounded">Start Now!</Link>
+						<Link to="https://github.com/morejust/store/blob/master/README.md" className="btn_1 rounded mobile_btn">Start Now!</Link>
 					</div>
 					<div className="copy">© 2018 More Just Store</div>
 				</div>
