@@ -11,8 +11,8 @@ const maxBlockSizeMB = parseInt(process.env['BLOCK_SIZE_MB']) || 1000;
 const maxFileSizeMB = parseInt(process.env['MAX_FILE_SIZE_MB']) || 50;
 let API_URL;
 
-if (process.env['ORGANIZATION_NAME']) {
-  API_URL = `https://api.github.com/orgs/${process.env['ORGANIZATION_NAME']}`;
+if (process.env['GITHUB_ORGANIZATION']) {
+  API_URL = `https://api.github.com/orgs/${process.env['GITHUB_ORGANIZATION']}`;
 } else {
   API_URL = "https://api.github.com/user";
 }
@@ -165,10 +165,24 @@ function getAllBlocks() {
       // Going through each repo
       const pattern = new RegExp(/[.b]\d+/);
       gitResponse.data.forEach(repo => {
+        // console.log(repo.owner);
 
         // It this repo is block
         if (pattern.test(repo.name)) {
-          blocks[repo.name] = repo;
+
+          // Testing for organization repos
+          const org = process.env['GITHUB_ORGANIZATION'];
+          if (org) {
+            if (repo.full_name.includes(org)) {
+              console.log('[getAllBlocks]: Found ORG repo', repo.full_name);
+              blocks[repo.name] = repo;
+            }
+          } else {
+            if (repo.full_name.includes(process.env['GITHUB_USERNAME'])) {
+              console.log('[getAllBlocks]: Found USER repo', repo.full_name);
+              blocks[repo.name] = repo;
+            }
+          }
         }
       });
 
