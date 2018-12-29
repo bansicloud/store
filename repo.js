@@ -11,17 +11,21 @@ const maxBlockSizeMB = parseInt(process.env['BLOCK_SIZE_MB']) || 1000;
 const maxFileSizeMB = parseInt(process.env['MAX_FILE_SIZE_MB']) || 50;
 let API_URL;
 
+// Global state
+const gitState = {
+  workingBlock: 0,
+  blockLetter: 'localb',
+  pattern: /localb\d+/
+}
+
 if (process.env['GITHUB_ORGANIZATION']) {
   API_URL = `https://api.github.com/orgs/${process.env['GITHUB_ORGANIZATION']}`;
+  gitState.blockLetter = 'orgb';
+  gitState.pattern = new RegExp(/orgb\d+/);
 } else {
   API_URL = "https://api.github.com/user";
 }
 
-
-// Global state
-const gitState = {
-  workingBlock: 0
-}
 
 // Run once at server initialization
 function connectToGitHub() {
@@ -60,7 +64,7 @@ function getRepoInfo() {
         totalUploaded += block.size;
       });
 
-      currentBlockSize = blocks['b' + gitState.workingBlock].size;
+      currentBlockSize = blocks[gitState.blockLetter + gitState.workingBlock].size;
 
       resolve({
         currentBlockSize,
@@ -75,7 +79,7 @@ function createBlock(blockNum) {
 
   console.log('Creating block', blockNum);
   const DATA = {
-    name: `b${blockNum}`,
+    name: `${gitState.blockLetter}${blockNum}`,
     description: `Block ${blockNum}`,
     homepage: "https://morejust.store/",
     private: false,
@@ -115,7 +119,7 @@ function switchToNextBlock() {
         nextBlock += 1;
 
         // If block exists
-        const selectedBlock = blocks['b' + nextBlock];
+        const selectedBlock = blocks[gitState.blockLetter + nextBlock];
         if (selectedBlock) {
 
           if (hasEnoughSpace(selectedBlock)) {
@@ -126,7 +130,7 @@ function switchToNextBlock() {
             console.log('[SwitchBlocks]: Block', nextBlock, 'is full');
           }
         } else {
-          console.log('[SwitchBlocks]: Need to create b', nextBlock);
+          console.log(`[SwitchBlocks]: Need to create ${gitState.blockLetter}`, nextBlock);
           gitState.workingBlock = nextBlock;
           needToCreateThisBlock = true;
           break;
@@ -163,26 +167,12 @@ function getAllBlocks() {
     .then(gitResponse => {
 
       // Going through each repo
-      const pattern = new RegExp(/[.b]\d+/);
       gitResponse.data.forEach(repo => {
-        // console.log(repo.owner);
 
         // It this repo is block
-        if (pattern.test(repo.name)) {
-
-          // Testing for organization repos
-          const org = process.env['GITHUB_ORGANIZATION'];
-          if (org) {
-            if (repo.full_name.includes(org)) {
-              console.log('[getAllBlocks]: Found ORG repo', repo.full_name);
-              blocks[repo.name] = repo;
-            }
-          } else {
-            if (repo.full_name.includes(process.env['GITHUB_USERNAME'])) {
-              console.log('[getAllBlocks]: Found USER repo', repo.full_name);
-              blocks[repo.name] = repo;
-            }
-          }
+        if (gitState.pattern.test(repo.name)) {
+          console.log('[getAllBlocks]: Found repo', repo.full_name);
+          blocks[repo.name] = repo;
         }
       });
 
@@ -196,7 +186,7 @@ function getAllBlocks() {
 }
 
 function uploadToCurrentBlock(filePath) {
-  return uploadToGithub(`b${gitState.workingBlock}`, filePath);
+  return uploadToGithub(`${gitState.blockLetter}${gitState.workingBlock}`, filePath);
 }
 
 async function uploadToNextBlock(filePath) {
