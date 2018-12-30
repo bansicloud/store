@@ -12,7 +12,6 @@ CURRENTDIR=$(pwd)
 if [ -z ${GITHUB_ORGANIZATION+x} ]; then 
   GITHUB_ACCOUNT=$USERNAME;
   echo "WORKING WITH USER ACC";
-  echo "$USERNAME"
 else 
   GITHUB_ACCOUNT=$GITHUB_ORGANIZATION;
   echo "WORKING WITH ORGANIZATION ACC";
@@ -36,7 +35,7 @@ fi
 mkdir -p $BLOCKS_FOLDER_PATH
 cd $BLOCKS_FOLDER_PATH
 
-git clone -b master --depth 1 https://$USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_ACCOUNT/$BLOCKNAME.git
+git clone -b master --depth 1 https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_ACCOUNT/$BLOCKNAME.git
 
 cd $BLOCKNAME
 

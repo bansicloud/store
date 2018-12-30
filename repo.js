@@ -9,7 +9,6 @@ const uploadToGithub = require('./upload')
 const token = process.env['GITHUB_TOKEN'];
 const maxBlockSizeMB = parseInt(process.env['BLOCK_SIZE_MB']) || 1000;
 const maxFileSizeMB = parseInt(process.env['MAX_FILE_SIZE_MB']) || 50;
-const isRepoPrivate = process.env['IS_PRIVATE'] || false;
 let API_URL;
 
 // Global state
@@ -17,7 +16,7 @@ const gitState = {
   workingBlock: 0,
   blockLetter: 'localb',
   pattern: /localb\d+/,
-  username: process.env['GITHUB_USERNAME'] || null
+  username: null
 }
 
 if (process.env['GITHUB_ORGANIZATION']) {
@@ -84,7 +83,7 @@ function createBlock(blockNum) {
     name: `${gitState.blockLetter}${blockNum}`,
     description: `Block ${blockNum}`,
     homepage: "https://morejust.store/",
-    private: isRepoPrivate,
+    private: false,
     has_issues: false,
     has_projects: false,
     has_wiki: false,
@@ -95,13 +94,6 @@ function createBlock(blockNum) {
     axios.post(`${API_URL}/repos?access_token=${token}`, DATA)
     .then(response => {
       console.log('✅ Block was created');
-
-      // Getting repo owner
-      if (!gitState.username) {
-        gitState.username = response.data.owner.login;
-        console.log('😎 Set up owner:', response.data.owner.login);
-      }
-
       resolve('✅ Block was created');
     })
     .catch(({ message }) => {
