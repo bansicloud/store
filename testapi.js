@@ -2,7 +2,7 @@ const request = require('request');
 const fs = require('fs');
 const path = require('path');
 
-// const API_URL = 'http://localhost:4000/file';
+// const API_URL = 'http://localhost:4000/file'; // Local EndPoint
 const API_URL = 'https://morejust.herokuapp.com/file';
 
 var r = request.post(API_URL, function optionalCallback (err, httpResp, fileLink) {
@@ -10,7 +10,7 @@ var r = request.post(API_URL, function optionalCallback (err, httpResp, fileLink
     return console.error('Upload failed:', err);
   }
   console.log('Upload successful! Link:', fileLink);
-})
+});
 var form = r.form();
 
 // To load file from current folder
