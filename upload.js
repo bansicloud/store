@@ -11,7 +11,11 @@ module.exports = (username, blockName, filePath) => new Promise((resolve, reject
     // resolve with a github link
     if (data.includes('raw.githubusercontent.com')) {
       data = data.replace(/\n/g, '');
-      resolve(data);
+      
+      // Check if need to remove garbage before link
+      link = data.substr(data.indexOf('http'));
+
+      resolve(link);
       isResolved = true;
     };
 
