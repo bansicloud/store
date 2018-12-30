@@ -32,7 +32,7 @@ function connectToGitHub() {
   return new Promise((resolve, reject) => {
     switchToNextBlock()
     .then(() => {
-      console.log('[connectToGithub]: New working block is', gitState.workingBlock);
+      console.log(`[connectToGithub]: New working block is ${gitState.blockLetter}${gitState.workingBlock}`);
       resolve();
     })
     .catch(error => {
@@ -77,7 +77,7 @@ function getRepoInfo() {
 function createBlock(blockNum) {
   blockNum = parseInt(blockNum);
 
-  console.log('Creating block', blockNum);
+  console.log(`Creating block ${gitState.blockLetter}${blockNum}`);
   const DATA = {
     name: `${gitState.blockLetter}${blockNum}`,
     description: `Block ${blockNum}`,
@@ -123,14 +123,14 @@ function switchToNextBlock() {
         if (selectedBlock) {
 
           if (hasEnoughSpace(selectedBlock)) {
-            console.log('[SwitchBlocks]: Selecting block', nextBlock);
+            console.log(`[SwitchBlocks]: Selecting ${gitState.blockLetter}${nextBlock}`);
             gitState.workingBlock = nextBlock;
             break;
           } else {
-            console.log('[SwitchBlocks]: Block', nextBlock, 'is full');
+            console.log(`[SwitchBlocks]: Block ${gitState.blockLetter}${nextBlock} is full`);
           }
         } else {
-          console.log(`[SwitchBlocks]: Need to create ${gitState.blockLetter}`, nextBlock);
+          console.log(`[SwitchBlocks]: Need to create ${gitState.blockLetter} ${nextBlock}`);
           gitState.workingBlock = nextBlock;
           needToCreateThisBlock = true;
           break;
@@ -168,6 +168,8 @@ function getAllBlocks() {
 
       // Going through each repo
       gitResponse.data.forEach(repo => {
+
+        console.log('😎 Owner:', repo.owner.login);
 
         // It this repo is block
         if (gitState.pattern.test(repo.name)) {
