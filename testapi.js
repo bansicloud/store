@@ -2,7 +2,8 @@ const request = require('request');
 const fs = require('fs');
 const path = require('path');
 
-const API_URL = 'http://localhost:4000/file';
+// const API_URL = 'http://localhost:4000/file';
+const API_URL = 'https://morejust.herokuapp.com/file';
 
 var r = request.post(API_URL, function optionalCallback (err, httpResp, fileLink) {
   if (err) {

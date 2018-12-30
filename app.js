@@ -78,7 +78,6 @@ app.post('/file', upload.array('file', FILES_LIMIT), (req, res) => {
   console.log(req.files);
   uploadFiles(req.files)
   .then(links => {
-    console.log('🗿', links);
     res.send(links[0]);
   })
   .catch(err => {
