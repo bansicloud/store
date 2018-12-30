@@ -9,9 +9,9 @@ const App = () => {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <div>
-        <Route path="/" exact component={MainPage} />
-        <Route path="/docs" component={DocsPage} />
-        <Route path="/links" component={LinksPage} />
+        <Route path={process.env.PUBLIC_URL + "/"} exact component={MainPage} />
+        <Route path={process.env.PUBLIC_URL + "/docs"} component={DocsPage} />
+        <Route path={process.env.PUBLIC_URL + "/links"} component={LinksPage} />
       </div>
     </BrowserRouter>
   )

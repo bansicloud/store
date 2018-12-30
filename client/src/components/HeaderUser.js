@@ -11,7 +11,7 @@ export default function HeaderUser () {
           </div>
           <div className="col-4">
             <div id="social">
-              <Link to="/">
+              <Link to={process.env.PUBLIC_URL + "/"}>
                 <p style={{marginRight: '5px'}}>Account</p><i className="fas fa-user"></i>
               </Link>
             </div>

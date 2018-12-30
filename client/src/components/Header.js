@@ -9,7 +9,7 @@ export default function Header() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-10 header-left-col">
-            <Link to='/'>
+            <Link to={process.env.PUBLIC_URL + '/'}>
               <img src={logo} alt="" width="49" height="35" />
               <h1 className="title">More Just Store</h1>
             </Link>

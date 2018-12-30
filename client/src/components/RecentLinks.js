@@ -58,7 +58,7 @@ function RecentLinks(props) {
       <center>
         {renderLinks()}
         <br/>
-        {props.allLinksBtn ? <Link to="/links" className="btn_1">View all links</Link> : ''}
+        {props.allLinksBtn ? <Link to={process.env.PUBLIC_URL + "/links"} className="btn_1">View all links</Link> : ''}
       </center>
     </div>
   )
