@@ -7,7 +7,7 @@ import LinksPage from './pages/LinksPage';
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <div>
         <Route path="/" exact component={MainPage} />
         <Route path="/docs" component={DocsPage} />
