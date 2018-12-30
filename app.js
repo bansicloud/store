@@ -67,10 +67,22 @@ app.post('/stats', async (req, res) => {
 app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
   uploadFiles(req.files)
   .then(links => {
-    res.send(links)
+    res.send(links);
   })
   .catch(err => {
-    res.status(500).json(err.message)
+    res.status(500).json(err.message);
+  });
+});
+
+app.post('/file', upload.array('file', FILES_LIMIT), (req, res) => {
+  console.log(req.files);
+  uploadFiles(req.files)
+  .then(links => {
+    console.log('🗿', links);
+    res.send(links[0]);
+  })
+  .catch(err => {
+    res.status(500).json(err.message);
   });
 });
 
