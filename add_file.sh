@@ -55,6 +55,7 @@ if git push --set-upstream origin $BRANCHNAME
 then
   # log file link
   FILELINK="https://raw.githubusercontent.com/$GITHUB_ACCOUNT/$BLOCKNAME/$BRANCHNAME/$FILENAME"
+  printf "\n" #Need to avoid garbage before link
   echo "$FILELINK"
 else 
   mv "./$FILENAME" "$FILEPATH"
