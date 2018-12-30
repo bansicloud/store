@@ -79,7 +79,7 @@ app.post('/upload', upload.array('somefiles', FILES_LIMIT), (req, res) => {
  */ 
 connectToGitHub()
 .then(() => {
-  console.log('[Server]: Working with block', gitState.workingBlock);
+  console.log(`[Server]: Working with ${gitState.blockLetter}${gitState.workingBlock}`);
 
   server.listen(port, () => {
     console.log(`[Server]: App is open on port ${port}`);

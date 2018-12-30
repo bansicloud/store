@@ -1,9 +1,9 @@
 const { exec } = require('child_process');
 
-module.exports = (blockName, filePath) => new Promise((resolve, reject) => {
+module.exports = (username, blockName, filePath) => new Promise((resolve, reject) => {
   let isResolved = false
   // NOW WE CAN LAUNCH BASH SCRIPT TO UPLOAD SINGLE FILE
-  const script = exec(`bash add_file.sh ${blockName} "${filePath}"`);
+  const script = exec(`bash add_file.sh ${username} ${blockName} "${filePath}"`);
 
   script.stdout.on('data', (data) => {
     console.log('sh:', data)

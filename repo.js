@@ -15,7 +15,8 @@ let API_URL;
 const gitState = {
   workingBlock: 0,
   blockLetter: 'localb',
-  pattern: /localb\d+/
+  pattern: /localb\d+/,
+  username: null
 }
 
 if (process.env['GITHUB_ORGANIZATION']) {
@@ -32,7 +33,7 @@ function connectToGitHub() {
   return new Promise((resolve, reject) => {
     switchToNextBlock()
     .then(() => {
-      console.log('[connectToGithub]: New working block is', gitState.workingBlock);
+      console.log(`[connectToGithub]: New working block is ${gitState.blockLetter}${gitState.workingBlock}`);
       resolve();
     })
     .catch(error => {
@@ -77,7 +78,7 @@ function getRepoInfo() {
 function createBlock(blockNum) {
   blockNum = parseInt(blockNum);
 
-  console.log('Creating block', blockNum);
+  console.log(`Creating block ${gitState.blockLetter}${blockNum}`);
   const DATA = {
     name: `${gitState.blockLetter}${blockNum}`,
     description: `Block ${blockNum}`,
@@ -123,14 +124,14 @@ function switchToNextBlock() {
         if (selectedBlock) {
 
           if (hasEnoughSpace(selectedBlock)) {
-            console.log('[SwitchBlocks]: Selecting block', nextBlock);
+            console.log(`[SwitchBlocks]: Selecting ${gitState.blockLetter}${nextBlock}`);
             gitState.workingBlock = nextBlock;
             break;
           } else {
-            console.log('[SwitchBlocks]: Block', nextBlock, 'is full');
+            console.log(`[SwitchBlocks]: Block ${gitState.blockLetter}${nextBlock} is full`);
           }
         } else {
-          console.log(`[SwitchBlocks]: Need to create ${gitState.blockLetter}`, nextBlock);
+          console.log(`[SwitchBlocks]: Need to create ${gitState.blockLetter} ${nextBlock}`);
           gitState.workingBlock = nextBlock;
           needToCreateThisBlock = true;
           break;
@@ -173,6 +174,11 @@ function getAllBlocks() {
         if (gitState.pattern.test(repo.name)) {
           console.log('[getAllBlocks]: Found repo', repo.full_name);
           blocks[repo.name] = repo;
+
+          if (!gitState.username) {
+            gitState.username = repo.owner.login;
+            console.log('😎 Set up owner:', repo.owner.login);
+          }
         }
       });
 
@@ -186,7 +192,7 @@ function getAllBlocks() {
 }
 
 function uploadToCurrentBlock(filePath) {
-  return uploadToGithub(`${gitState.blockLetter}${gitState.workingBlock}`, filePath);
+  return uploadToGithub(gitState.username, `${gitState.blockLetter}${gitState.workingBlock}`, filePath);
 }
 
 async function uploadToNextBlock(filePath) {
