@@ -8,7 +8,7 @@ export default function LeftBlock() {
   return (
     <div className="col-lg-6 content-left">
 				<div className="content-left-wrapper">
-					<Link to="/" id="logo">
+					<Link to={process.env.PUBLIC_URL + "/"} id="logo">
             <img src={logo} alt="" width="49" height="35" />
             <h1 className="title title-light">More Just Store</h1>
           </Link>
@@ -22,7 +22,7 @@ export default function LeftBlock() {
 						<h2>Store Files Simple.<br/>Free. Forever</h2>
 						<p>We use public GitHub repositories to store your files for free. You can create your own free unlimited cloud storage even on private repos. </p>
 						<a href="https://github.com/morejust/store/blob/master/README.md" target="blank" className="btn_1 rounded">Start Now!</a>
-            <Link to="docs" style={{marginLeft: "10px"}} className="btn_1 rounded">Documentation</Link>
+            <Link to={process.env.PUBLIC_URL + "docs"} style={{marginLeft: "10px"}} className="btn_1 rounded">Documentation</Link>
 					</div>
 					<div className="copy">© 2018 More Just Store</div>
 				</div>
