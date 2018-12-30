@@ -15,7 +15,8 @@ let API_URL;
 const gitState = {
   workingBlock: 0,
   blockLetter: 'localb',
-  pattern: /localb\d+/
+  pattern: /localb\d+/,
+  username: null
 }
 
 if (process.env['GITHUB_ORGANIZATION']) {
@@ -169,12 +170,15 @@ function getAllBlocks() {
       // Going through each repo
       gitResponse.data.forEach(repo => {
 
-        console.log('😎 Owner:', repo.owner.login);
-
         // It this repo is block
         if (gitState.pattern.test(repo.name)) {
           console.log('[getAllBlocks]: Found repo', repo.full_name);
           blocks[repo.name] = repo;
+
+          if (!gitState.username) {
+            gitState.username = repo.owner.login;
+            console.log('😎 Set up owner:', repo.owner.login);
+          }
         }
       });
 
@@ -188,7 +192,7 @@ function getAllBlocks() {
 }
 
 function uploadToCurrentBlock(filePath) {
-  return uploadToGithub(`${gitState.blockLetter}${gitState.workingBlock}`, filePath);
+  return uploadToGithub(gitState.username, `${gitState.blockLetter}${gitState.workingBlock}`, filePath);
 }
 
 async function uploadToNextBlock(filePath) {
