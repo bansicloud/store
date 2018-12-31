@@ -28,10 +28,8 @@ Heroku allows to create free small machines and deploy from GitHub in one click.
 <img src="https://raw.githubusercontent.com/morejust/orgb1/1c5eff2238a0abcf387205626bf804f2/Create-heroku.png" height="300">
 
 3. Click the 'Manage App' at the bottom of the page
-<img src="https://raw.githubusercontent.com/morejust/b1/7790f98de2a92ee21760a1a6d12c7245/Screenshot 2018-12-26 at 01.41.08.png" height="300">
 
 4. Click 'Settings' and 'Reveal Config Vars'
-<img src="https://raw.githubusercontent.com/morejust/b1/b356163d4f0641d78f5774ff7a690481/Screenshot 2018-12-26 at 01.45.17.png" height="300">
 
 5. Set the *key* to **GITHUB_TOKEN** and the *value* to the generated on the previous steps GitHub token.
 
