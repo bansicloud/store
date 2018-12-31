@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "loaders.css": "^0.1.2",
+    "prismjs": "^1.15.0",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
