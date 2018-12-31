@@ -26,7 +26,7 @@ export default class DocsPage extends Component {
           <ul style={{marginLeft: '22px', marginTop: '10px'}}>
             <li>1. Register on GitHub and go to <a href="https://github.com/settings/tokens/new" target="blank">Settings -> Developer Settings -> Personal Access Tokens -> Generate new token</a></li><br/>
             <li>2. Give it a random name, select public repo and scroll below and smash Generate. You don't have to add any additional rights if you want to store your files on public repositories.</li><br/>
-            <img className="shadow" src="https://raw.githubusercontent.com/morejust/orgb1/ee1ec84391449b16ed643d3b629b6f0b/Screenshot%202018-12-27%20at%2014.40.19.png" width="100%" alt=""/><br/><br/>
+            <img className="shadow" src="https://raw.githubusercontent.com/morejust/orgb1/ee1ec84391449b16ed643d3b629b6f0b/Screenshot%202018-12-27%20at%2014.40.19.png" alt=""/><br/><br/>
             <li>3. Copy generated GitHub token and go to the next part: Deployment.</li>
           </ul>
   
@@ -41,11 +41,11 @@ export default class DocsPage extends Component {
               <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy" />
             </a><br/><br/>
             <li>2. Choose any app name you like.</li><br/>
-            <img src="https://raw.githubusercontent.com/morejust/orgb1/1c5eff2238a0abcf387205626bf804f2/Create-heroku.png" alt="" width="100%" className="shadow"/><br/><br/>
+            <img src="https://raw.githubusercontent.com/morejust/orgb1/1c5eff2238a0abcf387205626bf804f2/Create-heroku.png" alt="" className="shadow"/><br/><br/>
             <li>3. Click the <span className="bold">'Manage App'</span> at the bottom of the page.</li><br/>
             <li>4. Click <span className="bold">'Settings'</span> and <span className="bold">'Reveal Config Vars'</span>.</li><br/>
             <li>5. Set the key to <span className="bold">GITHUB_TOKEN</span> and the <span className="bold"><i>value</i></span> to the generated on the previous steps GitHub token.</li><br/>
-            <img src="https://raw.githubusercontent.com/morejust/orgb1/c9cbc1a17746e52d1accb9d14e0f9b8b/Screenshot%202018-12-26%20at%2002.20.27.png" alt="" width="100%" className="shadow"/><br/><br/>
+            <img src="https://raw.githubusercontent.com/morejust/orgb1/c9cbc1a17746e52d1accb9d14e0f9b8b/Screenshot%202018-12-26%20at%2002.20.27.png" alt="" className="shadow"/><br/><br/>
             <li>6. Smash 'Open app' and enjoy!</li><br/>
           </ul>
   
