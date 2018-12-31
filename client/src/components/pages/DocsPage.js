@@ -21,16 +21,17 @@ export default class DocsPage extends Component {
           <h2 className="mt-5">Installation</h2>
           <p className="lead">Here is step-by-step guide on how to create your own Free & Unlimited Cloud Storage.</p>
           <span className="h6" role="img" aria-label="First">1️⃣</span> 
-          <p style={{display: 'inline'}}><span className="bold">Create GitHub token</span></p>
+          <p style={{display: 'inline'}}><span className="h5 bold">Create GitHub token</span></p>
   
           <ul style={{marginLeft: '22px', marginTop: '10px'}}>
             <li>1. Register on GitHub and go to <a href="https://github.com/settings/tokens/new" target="blank">Settings -> Developer Settings -> Personal Access Tokens -> Generate new token</a></li><br/>
             <li>2. Give it a random name, select public repo and scroll below and smash Generate. You don't have to add any additional rights if you want to store your files on public repositories.</li><br/>
+            <img className="shadow" src="https://raw.githubusercontent.com/morejust/orgb1/ee1ec84391449b16ed643d3b629b6f0b/Screenshot%202018-12-27%20at%2014.40.19.png" width="100%" alt=""/><br/><br/>
             <li>3. Copy generated GitHub token and go to the next part: Deployment.</li>
           </ul>
   
           <span className="h6" role="img" aria-label="Second">2️⃣</span> 
-          <p style={{display: 'inline'}}><span className="bold">Deployment on Heroku</span></p>
+          <p style={{display: 'inline'}}><span className="h5 bold">Deployment on Heroku</span></p>
   
           <ul style={{marginLeft: '22px', marginTop: '10px'}}>
             <li>Heroku allows to create free small machines and deploy from GitHub in one click. You will need to have a Heroku account to proceed, so please <a href="https://signup.heroku.com/login" target="blank">register</a>.</li>
@@ -40,12 +41,26 @@ export default class DocsPage extends Component {
               <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy" />
             </a><br/><br/>
             <li>2. Choose any app name you like.</li><br/>
+            <img src="https://raw.githubusercontent.com/morejust/orgb1/1c5eff2238a0abcf387205626bf804f2/Create-heroku.png" alt="" width="100%" className="shadow"/><br/><br/>
             <li>3. Click the <span className="bold">'Manage App'</span> at the bottom of the page.</li><br/>
             <li>4. Click <span className="bold">'Settings'</span> and <span className="bold">'Reveal Config Vars'</span>.</li><br/>
             <li>5. Set the key to <span className="bold">GITHUB_TOKEN</span> and the <span className="bold"><i>value</i></span> to the generated on the previous steps GitHub token.</li><br/>
+            <img src="https://raw.githubusercontent.com/morejust/orgb1/c9cbc1a17746e52d1accb9d14e0f9b8b/Screenshot%202018-12-26%20at%2002.20.27.png" alt="" width="100%" className="shadow"/><br/><br/>
             <li>6. Smash 'Open app' and enjoy!</li><br/>
           </ul>
   
+          {/*  */}
+          <hr/>
+
+          <h2 className="mt-5">Optional Environment Variables</h2>
+          <p className="lead">Here is the list of all possible config variables that can be changed.</p>
+          <p>Except <span className="bold">GITHUB_TOKEN</span> that is required and was set earlier. <br/><br/> If you decide to use this config variables, you should specify them as environment variables.</p>
+          <ul style={{marginLeft: '22px', marginTop: '10px'}}>
+            <li>1. <span className="bold">BLOCK_SIZE_MB</span> - max block (github repo) size. Default value = 1000</li><br/>
+            <li>2. <span className="bold">MAX_FILE_SIZE_MB</span> - max file size that can be uploaded. Default value = 100</li><br/>
+            <li>3. <span className="bold">ORGANIZATION_NAME</span> - used to create blocks in the organization Github account, not in your private account. Default value - not set.</li><br/>
+          </ul>
+
           {/*  */}
           <hr/>
   

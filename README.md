@@ -64,8 +64,7 @@ Here is the list of all possible config variables that can be changed (except **
 
 1. **BLOCK_SIZE_MB** - max block (github repo) size. Default value = 1000
 2. **MAX_FILE_SIZE_MB** - max file size that can be uploaded. Default value = 100
-3. **ORGANIZATION_NAME** - used to create blocks in the organization Github account, not in your private account. Default value - not set.
-4. **IS_PRIVATE** - create private repos to have private storage. Default value = False
+3. **GITHUB_ORGANIZATION** - used to create blocks in the organization Github account, not in your private account. Default value - not set.
 
 ## Technical details
 
