@@ -196,6 +196,10 @@ a.btn_1.rounded, .btn_1.rounded {
   font-weight: bold;
 }
 
+.shadow {
+  box-shadow: black 0 0 7px !important;
+}
+
 @media only screen and (max-width: 1100px) {
   .form-wrapper {
     width: 95%;
