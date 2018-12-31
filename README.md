@@ -13,7 +13,7 @@ Create your own free unlimited cloud storage! Our tool uses GitHub-as-a-storage 
 #### :one: Create GitHub token
 1. Register on GitHub and go to [Settings -> Developer Settings -> Personal Access Tokens -> Generate new token](https://github.com/settings/tokens/new)
 2. Give it a random name, select **public repo** and scroll below and smash **Generate**. You don't have to add any additional rights if you want to store your files on public repositories.
-<img src="https://raw.githubusercontent.com/morejust/b1/479c307d68d1181384cbe76e9efcb3d4/Screenshot%202018-12-27%20at%2014.40.19.png" height="300">
+<img src="https://raw.githubusercontent.com/morejust/orgb1/ee1ec84391449b16ed643d3b629b6f0b/Screenshot%202018-12-27%20at%2014.40.19.png" height="300">
 3. Copy generated GitHub token and go to the next part: deployment.
 
 #### :two: Deploy to Heroku
@@ -25,7 +25,7 @@ Heroku allows to create free small machines and deploy from GitHub in one click.
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/morejust/store/tree/heroku-deploy)
 
 2. Choose any app name you like
-<img src="https://raw.githubusercontent.com/morejust/b1/42a511ba90df5a626ea96e6cf6c57110/Create-heroku.png" height="300">
+<img src="https://raw.githubusercontent.com/morejust/orgb1/1c5eff2238a0abcf387205626bf804f2/Create-heroku.png" height="300">
 
 3. Click the 'Manage App' at the bottom of the page
 <img src="https://raw.githubusercontent.com/morejust/b1/7790f98de2a92ee21760a1a6d12c7245/Screenshot 2018-12-26 at 01.41.08.png" height="300">
@@ -35,7 +35,7 @@ Heroku allows to create free small machines and deploy from GitHub in one click.
 
 5. Set the *key* to **GITHUB_TOKEN** and the *value* to the generated on the previous steps GitHub token.
 
-<img src="https://raw.githubusercontent.com/morejust/b1/c6452fd43adee07505a006a5c4b3bfcb/Screenshot%202018-12-26%20at%2002.20.27.png" height="300">
+<img src="https://raw.githubusercontent.com/morejust/orgb1/c9cbc1a17746e52d1accb9d14e0f9b8b/Screenshot%202018-12-26%20at%2002.20.27.png" height="300">
 
 6. Smash 'Open app' and enjoy!
 
