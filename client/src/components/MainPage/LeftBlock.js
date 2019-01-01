@@ -24,7 +24,7 @@ export default function LeftBlock() {
 						<a href="https://github.com/morejust/store/blob/master/README.md" target="blank" className="btn_1 rounded">Start Now!</a>
             <Link to={process.env.PUBLIC_URL + "docs"} style={{marginLeft: "10px"}} className="btn_1 rounded">Documentation</Link>
 					</div>
-					<div className="copy">© 2018 More Just Store v1.1</div>
+					<div className="copy">© 2018 More Just Store v1.1.2</div>
 				</div>
 			</div>
   );
