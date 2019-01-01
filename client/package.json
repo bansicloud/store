@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "history": "^4.7.2",
     "loaders.css": "^0.1.2",
     "prismjs": "^1.15.0",
     "prop-types": "^15.6.2",
