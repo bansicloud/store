@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import MainPage from './pages/MainPage';
 import DocsPage from './pages/DocsPage';
@@ -29,14 +29,14 @@ class App extends Component {
 
   render() {
     return (
-      <HashRouter basename={process.env.PUBLIC_URL}>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <div>
           <div ref="ym"></div>
           <Route path={process.env.PUBLIC_URL + "/"} exact component={MainPage} />
           <Route path={process.env.PUBLIC_URL + "/docs"} exact component={DocsPage} />
           <Route path={process.env.PUBLIC_URL + "/links"} exact component={LinksPage} />
         </div>
-      </HashRouter>
+      </BrowserRouter>
     )
   }
 }
