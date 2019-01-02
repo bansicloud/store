@@ -17,7 +17,7 @@ const server = http.createServer(app);
 const port = process.env.PORT || 4000;
 const publicPath = path.join(__dirname, './client/build');
 const FILES_LIMIT = 5;
-const MAX_FILE_SIZE_MB = parseInt(process.env['MAX_FILE_SIZE_MB']) || 50;
+const MAX_FILE_SIZE_MB = parseInt(process.env['MAX_FILE_SIZE_MB']) || 100;
 
 app.use(cors());
 app.use(express.static(publicPath));

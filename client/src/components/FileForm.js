@@ -22,7 +22,7 @@ class FileForm extends Component {
     e.preventDefault();
 
     if (this.refs.formInput.files.length < 1) {
-      this.notify('noFiles', "📂 Select files first!");
+      this.refs.formInput.click();
       return;
     }
 
